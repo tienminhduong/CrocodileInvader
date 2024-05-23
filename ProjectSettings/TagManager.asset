@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Bomb
+  - Magnet
+  - Zombie
+  - Road
+  - Object
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Object
+  - Water
+  - UI
+  - Zombie1
+  - Zombie2
+  - Zombie3
+  - Road1
+  - Road2
+  - Road3
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Road
+    uniqueID: 1777393127
+    locked: 0
+  - name: Zombie3
+    uniqueID: 3822436665
+    locked: 0
+  - name: Zombie2
+    uniqueID: 4043136139
+    locked: 0
+  - name: Zombie1
+    uniqueID: 4068517669
+    locked: 0
