@@ -17,8 +17,6 @@ public class ZombieManager : Manager
     private int currentZombieID;
 
     #region Properties
-    //public Zombie FirstZombie zombieList[0];
-    //public Zombie FirstZombie { get { return zombieList?[0]; } }
     public Zombie FirstZombie { get { return zombieList.Count > 0 ? zombieList[0] : null; } }
     public Zombie LastZombie { get { return zombieList.Count > 0 ? zombieList[^1] : null; } }
     #endregion Properties
@@ -39,6 +37,7 @@ public class ZombieManager : Manager
     public void AddZombie()
     {
         Zombie z = (Zombie)GetItem(currentZombieID);
+        z.SetLayer(Random.Range(1, 4));
         zombieList.Add(z);
     }
 }

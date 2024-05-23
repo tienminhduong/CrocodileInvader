@@ -26,7 +26,7 @@ public class Zombie : PoolableObject
 
     public void SetLayer(int layer)
     {
-        foreach (var renderer in renderers)
+        foreach (SpriteRenderer renderer in renderers)
             renderer.sortingLayerName = "Zombie" + layer.ToString();
 
         gameObject.layer = layer + ZombieLayer0;
