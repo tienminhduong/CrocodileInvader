@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 /// <summary>
@@ -12,18 +13,20 @@ public class Zombie : PoolableObject
     [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] private Rigidbody2D rigidBody;
     [SerializeField] private List<SpriteRenderer> renderers = new List<SpriteRenderer>();
+    [SerializeField] private List<Collision2D> collisions = new List<Collision2D>();
 
     private float waitForJump;
     private float waitForFall;
     private float maxJumpHeight;
 
-    private float onGroundGravityScale;
-    private float fallingGravityScale;
+    [SerializeField] private float onGroundGravityScale;
+    [SerializeField] private float fallingGravityScale;
 
-    private int isOnGround;
+    [SerializeField] private int isOnGround;
 
     public override float Width => boxCollider.size.x;
     public int IsOnGround => isOnGround; // 0: Jumping, -1: Falling, 1: On ground
+    public int CollisionNumber => collisions.Count;
 
     private const int ZombieLayer0 = 5;
 
@@ -34,8 +37,6 @@ public class Zombie : PoolableObject
         waitForFall = 0f;
 
         maxJumpHeight = boxCollider.size.y * 2f;
-        onGroundGravityScale = 5f;
-        fallingGravityScale = 0.5f;
     }
 
     // Update is called once per frame
@@ -71,7 +72,7 @@ public class Zombie : PoolableObject
                 Fall();
         }
         //rigidBody.gravityScale = isOnGround == -1 ? fallingGravityScale : onGroundGravityScale;
-        if (isOnGround == 0 && rigidBody.velocity.y < 0)
+        if (isOnGround == 0 && rigidBody.velocity.y <= 0)
             rigidBody.gravityScale = fallingGravityScale;
         else
             rigidBody.gravityScale = onGroundGravityScale;
@@ -98,11 +99,18 @@ public class Zombie : PoolableObject
             isOnGround = 1;
             rigidBody.gravityScale = onGroundGravityScale;
         }
+        else
+        {
+            if (!collisions.Contains(collision))
+                collisions.Add(collision);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Road"))
-            isOnGround = 0;
+        if (collision.gameObject.CompareTag("Road") && transform.position.y <= collision.transform.position.y)
+            isOnGround = -1;
+        if (!collision.gameObject.CompareTag("Road") && collisions.Contains(collision))
+            collisions.Remove(collision);
     }
 }

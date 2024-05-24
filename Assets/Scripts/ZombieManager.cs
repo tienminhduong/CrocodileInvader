@@ -14,6 +14,7 @@ public class ZombieManager : Manager
     }
 
     private List<Zombie> zombieList = new List<Zombie>();
+    private List<float> associatedX;
     private int currentZombieID;
 
     #region Properties
@@ -30,6 +31,34 @@ public class ZombieManager : Manager
 
     // Update is called once per frame
     void Update()
+    {
+        ZombiesJumping();
+        CalculatePosition();
+        RearrangeZombies();
+    }
+
+    public void AddZombie()
+    {
+        Zombie z = (Zombie)GetItem(currentZombieID);
+        z.SetLayer(Random.Range(1, 4));
+        zombieList.Add(z);
+    }
+
+    private bool AreAllOnGround()
+    {
+        foreach (Zombie zombie in zombieList)
+            if (zombie.IsOnGround != 1) return false;
+        return true;
+    }
+
+    private bool AreAllNotTouchingAnythingOtherThanGround()
+    {
+        foreach (Zombie zombie in zombieList)
+            if (zombie.CollisionNumber > 0) return false;
+        return true;
+    }
+
+    private void ZombiesJumping()
     {
         if (Input.touchCount > 0)
         {
@@ -59,25 +88,38 @@ public class ZombieManager : Manager
         }
     }
 
-    public void AddZombie()
+    private void CalculatePosition()
     {
-        Zombie z = (Zombie)GetItem(currentZombieID);
-        z.SetLayer(Random.Range(1, 4));
-        zombieList.Add(z);
-    }
+        if (zombieList.Count == 0 || !AreAllOnGround()
+            || !AreAllNotTouchingAnythingOtherThanGround()) return;
+        associatedX = new List<float>();
 
-    private bool AreAllOnGround()
-    {
-        foreach (Zombie zombie in zombieList)
-            if (zombie.IsOnGround != 1) return false;
-        return true;
+        float availableWidth = 0.3f * GameManager.ScreenWidth;
+        float lastPossibleXPosition = -0.4f * GameManager.ScreenWidth;
+
+        float d = availableWidth / zombieList.Count;
+        float maxD = 0.85f * FirstZombie.Width;
+        if (maxD < d) d = maxD;
+
+        for (int i = 0; i < zombieList.Count; i++)
+        {
+            float distance = (zombieList.Count - 1 - i) * d;
+            associatedX.Add(lastPossibleXPosition + distance);
+        }
     }
 
     private void RearrangeZombies()
     {
-        if (AreAllOnGround())
+        if (associatedX == null) return;
+        if (AreAllOnGround() && AreAllNotTouchingAnythingOtherThanGround())
         {
-            
+            for (int i = 0; i < zombieList.Count; ++i)
+            {
+                if (zombieList[i].transform.position.x == associatedX[i])
+                    continue;
+                float d = zombieList[i].transform.position.x - associatedX[i];
+                zombieList[i].transform.position += Vector3.left * d * Time.deltaTime;
+            }
         }
     }
 }

@@ -205,6 +205,22 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Road
       objectReference: {fileID: 0}
+    - target: {fileID: 3270073721837778906, guid: 30e795309867bd141bc707df66572a0c, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3270073721837778906, guid: 30e795309867bd141bc707df66572a0c, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4692181750744351400, guid: 30e795309867bd141bc707df66572a0c, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4692181750744351400, guid: 30e795309867bd141bc707df66572a0c, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5157327159506275418, guid: 30e795309867bd141bc707df66572a0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -248,6 +264,14 @@ PrefabInstance:
     - target: {fileID: 6179237229994270334, guid: 30e795309867bd141bc707df66572a0c, type: 3}
       propertyPath: m_Size.x
       value: 35.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121849937869139554, guid: 30e795309867bd141bc707df66572a0c, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121849937869139554, guid: 30e795309867bd141bc707df66572a0c, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9202018161719016694, guid: 30e795309867bd141bc707df66572a0c, type: 3}
       propertyPath: m_Size.x
