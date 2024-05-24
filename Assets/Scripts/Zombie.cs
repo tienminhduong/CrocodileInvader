@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
-/// <summary>
-/// Next target: code the jump feature for zombies
-/// </summary>
-
 public class Zombie : PoolableObject
 {
     [Header("Zombie")]
@@ -18,6 +14,7 @@ public class Zombie : PoolableObject
     private float waitForJump;
     private float waitForFall;
     private float maxJumpHeight;
+    private float groundHeight;
 
     [SerializeField] private float onGroundGravityScale;
     [SerializeField] private float fallingGravityScale;
@@ -25,18 +22,27 @@ public class Zombie : PoolableObject
     [SerializeField] private int isOnGround;
 
     public override float Width => boxCollider.size.x;
+    public override float Height => boxCollider.size.y;
     public int IsOnGround => isOnGround; // 0: Jumping, -1: Falling, 1: On ground
     public int CollisionNumber => collisions.Count;
+    public bool IsFellOffTheGround => transform.position.y < groundHeight;
 
     private const int ZombieLayer0 = 5;
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        waitForJump = 0f;
-        waitForFall = 0f;
+        Init();
 
         maxJumpHeight = boxCollider.size.y * 2f;
+    }
+
+    public void Init()
+    {
+        waitForFall = 0f;
+        waitForJump = 0f;
+        isOnGround = -1;
+        groundHeight = float.MaxValue;
     }
 
     // Update is called once per frame
@@ -80,6 +86,7 @@ public class Zombie : PoolableObject
 
     private void Jump()
     {
+        rigidBody.velocity = Vector3.zero;
         float jumpForce = Mathf.Sqrt(maxJumpHeight * Physics2D.gravity.y * rigidBody.gravityScale * (-2))
             * rigidBody.mass;
         rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -88,7 +95,6 @@ public class Zombie : PoolableObject
 
     private void Fall()
     {
-        // Em cung khong biet
         isOnGround = -1;
     }
 
@@ -97,6 +103,7 @@ public class Zombie : PoolableObject
         if (collision.gameObject.CompareTag("Road"))
         {
             isOnGround = 1;
+            groundHeight = collision.transform.position.y;
             rigidBody.gravityScale = onGroundGravityScale;
         }
         else

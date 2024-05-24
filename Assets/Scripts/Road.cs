@@ -10,6 +10,7 @@ public class Road : PoolableObject
     [SerializeField] private BoxCollider2D boxCollider;
 
     public override float Width => spriteRenderer.size.x;
+    public override float Height => spriteRenderer.size.y;
 
     // Start is called before the first frame update
     protected override void Start()

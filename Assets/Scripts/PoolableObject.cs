@@ -11,6 +11,7 @@ public class PoolableObject : MonoBehaviour
     [SerializeField] private int id;
 
     public virtual float Width { get; }
+    public virtual float Height { get; }
     public int ID => id;
     public Manager AssociatedManager { set { manager = value; } }
 
@@ -28,6 +29,11 @@ public class PoolableObject : MonoBehaviour
     protected void DestroyOnOutOfBounds()
     {
         if (transform.position.x + Width / 2 < GameManager.ScreenWidth * -0.55f)
+            if (manager)
+                manager.ReturnItem(this);
+            else
+                Destroy(gameObject);
+        if (transform.position.y + Height < GameManager.ScreenHeight / -2)
             if (manager)
                 manager.ReturnItem(this);
             else

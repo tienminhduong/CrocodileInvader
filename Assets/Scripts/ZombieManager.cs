@@ -9,16 +9,28 @@ public class ZombieManager : Manager
     {
         Zombie z = (Zombie)base.GetItem(id);
         z.transform.position = transform.position;
+        z.Init();
 
         return z;
     }
 
-    private List<Zombie> zombieList = new List<Zombie>();
-    private List<float> associatedX;
-    private int currentZombieID;
+    [SerializeField] private List<Zombie> zombieList = new List<Zombie>();
+    [SerializeField] private List<float> associatedX;
+    private int currentZombieID = 0;
+    private int layerCount = 1;
 
     #region Properties
-    public Zombie FirstZombie { get { return zombieList.Count > 0 ? zombieList[0] : null; } }
+    //public Zombie FirstZombie { get { return zombieList.Count > 0 ? zombieList[0] : null; } }
+    public Zombie FirstZombie
+    {
+        get
+        {
+            foreach (Zombie zombie in zombieList)
+                if (!zombie.IsFellOffTheGround)
+                    return zombie;
+            return null;
+        }
+    }
     public Zombie LastZombie { get { return zombieList.Count > 0 ? zombieList[^1] : null; } }
     #endregion Properties
 
@@ -26,21 +38,30 @@ public class ZombieManager : Manager
     protected override void Start()
     {
         base.Start();
-        currentZombieID = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        CollectingNulls();
         ZombiesJumping();
         CalculatePosition();
         RearrangeZombies();
     }
 
+    private void CollectingNulls()
+    {
+        for (int i = 0; i < zombieList.Count; i++)
+            if (!zombieList[i].isActiveAndEnabled) { zombieList.RemoveAt(i); i--; }
+    }
+
     public void AddZombie()
     {
         Zombie z = (Zombie)GetItem(currentZombieID);
-        z.SetLayer(Random.Range(1, 4));
+        z.SetLayer(layerCount);
+
+        layerCount++;
+        if (layerCount > 3) layerCount = 1;
         zombieList.Add(z);
     }
 
@@ -90,7 +111,8 @@ public class ZombieManager : Manager
 
     private void CalculatePosition()
     {
-        if (zombieList.Count == 0 || !AreAllOnGround()
+        //if (zombieList.Count == 0 || !AreAllOnGround()
+        if (!FirstZombie || !AreAllOnGround()
             || !AreAllNotTouchingAnythingOtherThanGround()) return;
         associatedX = new List<float>();
 
@@ -110,7 +132,7 @@ public class ZombieManager : Manager
 
     private void RearrangeZombies()
     {
-        if (associatedX == null) return;
+        if (associatedX == null || associatedX.Count < zombieList.Count) return;
         if (AreAllOnGround() && AreAllNotTouchingAnythingOtherThanGround())
         {
             for (int i = 0; i < zombieList.Count; ++i)

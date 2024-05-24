@@ -14,6 +14,9 @@ public class RoadManager : Manager
     [SerializeField] private float nextHeight;
     [SerializeField] private int nextRoadID;
 
+    //public float CurrentHeight => currentHeight;
+    public float MinHeight => standardHeight[0];
+
     public override PoolableObject GetItem(int id = 0)
     {
         Road r = (Road)base.GetItem(id);
