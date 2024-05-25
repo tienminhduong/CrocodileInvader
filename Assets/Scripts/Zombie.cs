@@ -17,6 +17,7 @@ public class Zombie : PoolableObject
     private float groundHeight;
 
     private float dForward;
+    private float tForward;
 
     [SerializeField] private float onGroundGravityScale;
     [SerializeField] private float fallingGravityScale;
@@ -45,6 +46,7 @@ public class Zombie : PoolableObject
         waitForJump = 0f;
         isOnGround = -1;
         dForward = 0f;
+        tForward = 0f;
         groundHeight = float.MaxValue;
     }
 
@@ -80,16 +82,19 @@ public class Zombie : PoolableObject
             if (waitForFall < 0)
                 Fall();
         }
-        //rigidBody.gravityScale = isOnGround == -1 ? fallingGravityScale : onGroundGravityScale;
-        if (isOnGround == 0 && rigidBody.velocity.y <= 0)
+
+        if (isOnGround == 0 && dForward > 0)
         {
-            rigidBody.gravityScale = fallingGravityScale;
-            if (dForward > 0f)
-            {
-                transform.position += Vector3.right * dForward * Time.deltaTime;
-                dForward -= Time.deltaTime;
-            }
+            tForward += Time.deltaTime;
+            float v = 2 * dForward * (1 - tForward);
+            if (v < 0f)
+                dForward = tForward = 0f;
+            else
+                rigidBody.velocity = new Vector2(v, rigidBody.velocity.y);
         }
+
+        if (isOnGround == 0 && rigidBody.velocity.y <= 0)
+            rigidBody.gravityScale = fallingGravityScale;
         else
             rigidBody.gravityScale = onGroundGravityScale;
     }
@@ -103,6 +108,8 @@ public class Zombie : PoolableObject
         dForward = GameManager.ScreenWidth / 10f;
         if (Random.Range(0, 100) < 10 && GameManager.Instance.Zombies.FirstZombie)
             dForward += (GameManager.Instance.Zombies.FirstZombie.transform.position.x - transform.position.x) * 0.5f;
+        if (Random.Range(0, 2) == 0 || transform.position.x + dForward >= 0f)
+            dForward = 0f;
 
         rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         isOnGround = 0;

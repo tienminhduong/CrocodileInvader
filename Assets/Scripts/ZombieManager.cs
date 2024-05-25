@@ -25,10 +25,13 @@ public class ZombieManager : Manager
     {
         get
         {
+            if (zombieList.Count == 0) return null;
+            Zombie result = null;
+            float maxX = -GameManager.ScreenWidth;
             foreach (Zombie zombie in zombieList)
-                if (!zombie.IsFellOffTheGround)
-                    return zombie;
-            return null;
+                if (!zombie.IsFellOffTheGround && zombie.transform.position.x > maxX)
+                { result = zombie; maxX = zombie.transform.position.x; }
+            return result;
         }
     }
     public Zombie LastZombie { get { return zombieList.Count > 0 ? zombieList[^1] : null; } }
