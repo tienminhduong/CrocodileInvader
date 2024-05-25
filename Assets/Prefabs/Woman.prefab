@@ -860,6 +860,7 @@ GameObject:
   - component: {fileID: 7955845069694065099}
   - component: {fileID: 6010585493713380102}
   - component: {fileID: 1482085859889420388}
+  - component: {fileID: 1911627330652589171}
   m_Layer: 12
   m_Name: Woman
   m_TagString: Untagged
@@ -914,6 +915,8 @@ MonoBehaviour:
   - {fileID: 335763234177918940}
   - {fileID: 5952205222403265007}
   boxCollider: {fileID: 1482085859889420388}
+  rigidBody2D: {fileID: 6010585493713380102}
+  jumpForce: 10
 --- !u!50 &6010585493713380102
 Rigidbody2D:
   serializedVersion: 4
@@ -986,6 +989,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.37535954, y: 2.8894181}
   m_EdgeRadius: 0
+--- !u!95 &1911627330652589171
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051430334227552169}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 92b551d677285d342b454b0158896a05, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8297586525659189573
 GameObject:
   m_ObjectHideFlags: 0

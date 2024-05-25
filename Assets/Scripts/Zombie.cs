@@ -10,6 +10,7 @@ public class Zombie : PoolableObject
     [SerializeField] private Rigidbody2D rigidBody;
     [SerializeField] private List<SpriteRenderer> renderers = new List<SpriteRenderer>();
     [SerializeField] private List<Collision2D> collisions = new List<Collision2D>();
+    [SerializeField] private Animator legAnimator;
 
     private float waitForJump;
     private float waitForFall;
@@ -56,6 +57,7 @@ public class Zombie : PoolableObject
     {
         base.Update();
         UpdateJumpFall();
+        legAnimator.SetBool("isOnGround", isOnGround == 1);
     }
 
     public void SetLayer(int layer)
@@ -138,7 +140,7 @@ public class Zombie : PoolableObject
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Road") && transform.position.y <= collision.transform.position.y)
+        if (collision.gameObject.CompareTag("Road") && rigidBody.velocity.y < 0)
             isOnGround = -1;
         if (collision.gameObject.CompareTag("Object") && collisions.Contains(collision))
             collisions.Remove(collision);

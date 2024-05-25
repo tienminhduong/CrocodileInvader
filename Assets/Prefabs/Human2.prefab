@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 562495051919836388}
   - component: {fileID: 5091595380616816780}
   - component: {fileID: 4974191428667417375}
+  - component: {fileID: 3249299883737053280}
   m_Layer: 12
   m_Name: Human2
   m_TagString: Untagged
@@ -233,6 +234,8 @@ MonoBehaviour:
   - {fileID: 1516333814514757588}
   - {fileID: 7936764638151035772}
   boxCollider: {fileID: 4974191428667417375}
+  rigidBody2D: {fileID: 5091595380616816780}
+  jumpForce: 10
 --- !u!50 &5091595380616816780
 Rigidbody2D:
   serializedVersion: 4
@@ -305,6 +308,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6642308, y: 2.7682679}
   m_EdgeRadius: 0
+--- !u!95 &3249299883737053280
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839560557785682515}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 92b551d677285d342b454b0158896a05, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &917734007467638218
 GameObject:
   m_ObjectHideFlags: 0
