@@ -47,6 +47,10 @@ public class Manager : MonoBehaviour
         pooling[item.ID].Enqueue(item);
     }
 
+    public virtual void CallSpawnItem()
+    {
+    }
+
     private void Awake()
     {
         Init();

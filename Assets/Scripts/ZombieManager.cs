@@ -33,7 +33,7 @@ public class ZombieManager : Manager
             return result;
         }
     }
-    public Zombie LastZombie { get { return zombieList.Count > 0 ? zombieList[^1] : null; } }
+    //public Zombie LastZombie { get { return zombieList.Count > 0 ? zombieList[^1] : null; } }
     #endregion Properties
 
     // Start is called before the first frame update
@@ -96,7 +96,7 @@ public class ZombieManager : Manager
                     foreach (Zombie zombie in zombieList)
                     {
                         float t = (FirstZombie.transform.position.x - zombie.transform.position.x)
-                            / GameManager.Instance.ScrollBackSpeed;
+                            / GameManager.Instance.ScrollBackSpeed * 0.9f;
                         zombie.CallTriggerJump(t + 0.01f);
                     }
             }
@@ -125,7 +125,7 @@ public class ZombieManager : Manager
         float lastPossibleXPosition = -0.4f * GameManager.ScreenWidth;
 
         float d = availableWidth / zombieList.Count;
-        float maxD = 0.85f * FirstZombie.Width;
+        float maxD = 0.75f * FirstZombie.Width;
         if (maxD < d) d = maxD;
 
         for (int i = 0; i < zombieList.Count; i++)

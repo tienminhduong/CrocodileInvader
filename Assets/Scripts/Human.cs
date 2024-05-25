@@ -12,21 +12,11 @@ public class Human : PoolableObject
 
     const int HumanLayer0 = 11;
 
-    public override void Init()
-    {
-    }
-
-    // Start is called before the first frame update
-    protected override void Start()
-    {
-        
-    }
-
     // Update is called once per frame
-    protected override void Update()
-    {
-        base.Update();
-    }
+    //protected override void Update()
+    //{
+        //base.Update();
+    //}
 
     public void SetLayer(int layer)
     {
