@@ -60,8 +60,13 @@ public class ZombieManager : Manager
         Zombie z = (Zombie)GetItem(currentZombieID);
         z.SetLayer(layerCount);
 
-        layerCount++;
-        if (layerCount > 3) layerCount = 1;
+        if (layerCount == 1)
+            layerCount = 3;
+        else if (layerCount == 3)
+            layerCount = 2;
+        else
+            layerCount = 1;
+
         zombieList.Add(z);
     }
 

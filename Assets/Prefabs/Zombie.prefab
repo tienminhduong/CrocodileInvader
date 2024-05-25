@@ -443,8 +443,9 @@ MonoBehaviour:
   - {fileID: 4213156108182167759}
   - {fileID: 3481537519562787333}
   - {fileID: 5352284853012130168}
-  onGroundGravityScale: 5
+  onGroundGravityScale: 10
   fallingGravityScale: 0.3
+  isOnGround: 0
 --- !u!61 &4268191399708254453
 BoxCollider2D:
   m_ObjectHideFlags: 0

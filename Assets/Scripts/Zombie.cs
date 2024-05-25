@@ -16,6 +16,8 @@ public class Zombie : PoolableObject
     private float maxJumpHeight;
     private float groundHeight;
 
+    private float dForward;
+
     [SerializeField] private float onGroundGravityScale;
     [SerializeField] private float fallingGravityScale;
 
@@ -42,6 +44,7 @@ public class Zombie : PoolableObject
         waitForFall = 0f;
         waitForJump = 0f;
         isOnGround = -1;
+        dForward = 0f;
         groundHeight = float.MaxValue;
     }
 
@@ -79,7 +82,14 @@ public class Zombie : PoolableObject
         }
         //rigidBody.gravityScale = isOnGround == -1 ? fallingGravityScale : onGroundGravityScale;
         if (isOnGround == 0 && rigidBody.velocity.y <= 0)
+        {
             rigidBody.gravityScale = fallingGravityScale;
+            if (dForward > 0f)
+            {
+                transform.position += Vector3.right * dForward * Time.deltaTime;
+                dForward -= Time.deltaTime;
+            }
+        }
         else
             rigidBody.gravityScale = onGroundGravityScale;
     }
@@ -89,6 +99,11 @@ public class Zombie : PoolableObject
         rigidBody.velocity = Vector3.zero;
         float jumpForce = Mathf.Sqrt(maxJumpHeight * Physics2D.gravity.y * rigidBody.gravityScale * (-2))
             * rigidBody.mass;
+
+        dForward = GameManager.ScreenWidth / 10f;
+        if (Random.Range(0, 100) < 10 && GameManager.Instance.Zombies.FirstZombie)
+            dForward += (GameManager.Instance.Zombies.FirstZombie.transform.position.x - transform.position.x) * 0.5f;
+
         rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         isOnGround = 0;
     }

@@ -559,6 +559,8 @@ MonoBehaviour:
   numberRepool: 10
   objectPrefabs:
   - {fileID: 8281455018538916269, guid: 67ab339ab33e19147b554baa0eed473a, type: 3}
+  zombieList: []
+  associatedX: []
 --- !u!4 &1774429094
 Transform:
   m_ObjectHideFlags: 0
@@ -568,7 +570,7 @@ Transform:
   m_GameObject: {fileID: 1774429092}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.27, y: 3.71, z: 0}
+  m_LocalPosition: {x: -8.27, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
