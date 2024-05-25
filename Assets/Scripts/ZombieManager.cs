@@ -119,7 +119,6 @@ public class ZombieManager : Manager
 
     private void CalculatePosition()
     {
-        //if (zombieList.Count == 0 || !AreAllOnGround()
         if (!FirstZombie || !AreAllOnGround()
             || !AreAllNotTouchingAnythingOtherThanGround()) return;
         associatedX = new List<float>();

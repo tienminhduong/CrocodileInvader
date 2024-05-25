@@ -105,10 +105,10 @@ public class Zombie : PoolableObject
         float jumpForce = Mathf.Sqrt(maxJumpHeight * Physics2D.gravity.y * rigidBody.gravityScale * (-2))
             * rigidBody.mass;
 
-        dForward = GameManager.ScreenWidth / 10f;
+        dForward = GameManager.ScreenWidth / 20f;
         if (Random.Range(0, 100) < 10 && GameManager.Instance.Zombies.FirstZombie)
             dForward += (GameManager.Instance.Zombies.FirstZombie.transform.position.x - transform.position.x) * 0.5f;
-        if (Random.Range(0, 2) == 0 || transform.position.x + dForward >= 0f)
+        if (Random.Range(0, 2) == 0 || transform.position.x + dForward >= -0.1f * GameManager.ScreenWidth)
             dForward = 0f;
 
         rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
