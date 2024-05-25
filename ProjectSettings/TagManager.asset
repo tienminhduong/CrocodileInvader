@@ -22,9 +22,9 @@ TagManager:
   - Road1
   - Road2
   - Road3
-  - 
-  - 
-  - 
+  - Human1
+  - Human2
+  - Human3
   - 
   - 
   - 
@@ -49,12 +49,12 @@ TagManager:
   - name: Road
     uniqueID: 1777393127
     locked: 0
-  - name: Zombie3
+  - name: Layer3
     uniqueID: 3822436665
     locked: 0
-  - name: Zombie2
+  - name: Layer2
     uniqueID: 4043136139
     locked: 0
-  - name: Zombie1
+  - name: Layer1
     uniqueID: 4068517669
     locked: 0

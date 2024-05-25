@@ -9,7 +9,6 @@ public class ZombieManager : Manager
     {
         Zombie z = (Zombie)base.GetItem(id);
         z.transform.position = transform.position;
-        z.Init();
 
         return z;
     }
@@ -38,9 +37,8 @@ public class ZombieManager : Manager
     #endregion Properties
 
     // Start is called before the first frame update
-    protected override void Start()
+    void Start()
     {
-        base.Start();
     }
 
     // Update is called once per frame

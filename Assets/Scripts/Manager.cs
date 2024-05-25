@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-    #region Pooling
-
     [SerializeField] private int numberRepool;
 
     [SerializeField] List<PoolableObject> objectPrefabs = new List<PoolableObject>();
     private Dictionary<int, Queue<PoolableObject>> pooling;
+
+    public int PrefabsCount => objectPrefabs.Count;
 
     protected virtual void Init(int id = 0)
     {
@@ -37,6 +37,7 @@ public class Manager : MonoBehaviour
 
         PoolableObject p = pooling[id].Dequeue();
         p.gameObject.SetActive(true);
+        p.Init();
         return p;
     }
 
@@ -52,9 +53,7 @@ public class Manager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    void Start()
     {
     }
-
-    #endregion Pooling
 }

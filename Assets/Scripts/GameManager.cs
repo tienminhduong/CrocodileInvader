@@ -59,11 +59,11 @@ public class GameManager : MonoBehaviour
         if (t >= 2f)
         {
             t = 0f;
-            GenerateZombies(1);
+            GenerateZombies();
         }
     }
 
-    public void GenerateZombies(int number)
+    public void GenerateZombies(int number = 1)
     {
         for (int i = 0; i < number; i++)
             Zombies.AddZombie();

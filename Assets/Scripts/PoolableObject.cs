@@ -26,22 +26,26 @@ public class PoolableObject : MonoBehaviour
         DestroyOnOutOfBounds();
     }
 
+    public virtual void Init() { }
+
     protected void DestroyOnOutOfBounds()
     {
         if (transform.position.x + Width / 2 < GameManager.ScreenWidth * -0.55f)
-            if (manager)
-                manager.ReturnItem(this);
-            else
-                Destroy(gameObject);
+            RemoveSelf();
         if (transform.position.y + Height < GameManager.ScreenHeight / -2)
-            if (manager)
-                manager.ReturnItem(this);
-            else
-                Destroy(gameObject);
+            RemoveSelf();
     }
 
     protected void ScrollBack()
     {
         transform.position += scrollbackModifier * GameManager.Instance.ScrollBackSpeed * Time.deltaTime * Vector3.left;
+    }
+
+    protected void RemoveSelf()
+    {
+        if (manager)
+            manager.ReturnItem(this);
+        else
+            Destroy(gameObject);
     }
 }

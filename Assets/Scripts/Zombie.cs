@@ -40,7 +40,7 @@ public class Zombie : PoolableObject
         maxJumpHeight = boxCollider.size.y * 2f;
     }
 
-    public void Init()
+    public override void Init()
     {
         waitForFall = 0f;
         waitForJump = 0f;
@@ -48,6 +48,7 @@ public class Zombie : PoolableObject
         dForward = 0f;
         tForward = 0f;
         groundHeight = float.MaxValue;
+        collisions.Clear();
     }
 
     // Update is called once per frame
@@ -60,7 +61,7 @@ public class Zombie : PoolableObject
     public void SetLayer(int layer)
     {
         foreach (SpriteRenderer renderer in renderers)
-            renderer.sortingLayerName = "Zombie" + layer.ToString();
+            renderer.sortingLayerName = "Layer" + layer.ToString();
 
         gameObject.layer = layer + ZombieLayer0;
     }
@@ -108,7 +109,7 @@ public class Zombie : PoolableObject
         dForward = GameManager.ScreenWidth / 20f;
         if (Random.Range(0, 100) < 10 && GameManager.Instance.Zombies.FirstZombie)
             dForward += (GameManager.Instance.Zombies.FirstZombie.transform.position.x - transform.position.x) * 0.5f;
-        if (Random.Range(0, 2) == 0 || transform.position.x + dForward >= -0.1f * GameManager.ScreenWidth)
+        if (Random.Range(0, 100) < 30 || transform.position.x + dForward >= -0.1f * GameManager.ScreenWidth)
             dForward = 0f;
 
         rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -128,7 +129,7 @@ public class Zombie : PoolableObject
             groundHeight = collision.transform.position.y;
             rigidBody.gravityScale = onGroundGravityScale;
         }
-        else
+        else if (collision.gameObject.CompareTag("Object"))
         {
             if (!collisions.Contains(collision))
                 collisions.Add(collision);
@@ -139,7 +140,7 @@ public class Zombie : PoolableObject
     {
         if (collision.gameObject.CompareTag("Road") && transform.position.y <= collision.transform.position.y)
             isOnGround = -1;
-        if (!collision.gameObject.CompareTag("Road") && collisions.Contains(collision))
+        if (collision.gameObject.CompareTag("Object") && collisions.Contains(collision))
             collisions.Remove(collision);
     }
 }

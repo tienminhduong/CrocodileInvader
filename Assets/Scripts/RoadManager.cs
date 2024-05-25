@@ -33,7 +33,7 @@ public class RoadManager : Manager
     }
 
     // Start is called before the first frame update
-    protected override void Start()
+    void Start()
     {
         countDistance = 0;
         currentHeight = standardHeight[0];
