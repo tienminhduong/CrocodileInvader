@@ -25,7 +25,9 @@ public class Zombie : PoolableObject
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float fallSpeed;
     [SerializeField] private float floatSpeed;
+
     private float jumpAcceleration;
+    private float maxJumpAcceleration;
 
     private float maxJumpHeight;
     private float CurrentHeight => transform.position.y - groundHeight;
@@ -41,7 +43,14 @@ public class Zombie : PoolableObject
     public override float Height => boxCollider.size.y;
     public int JumpStatus => jumpStatus;
     public int CollisionNumber => collisions.Count;
-    public bool IsFellOffTheGround => transform.position.y < groundHeight;
+    //public bool IsFellOffTheGround => transform.position.y < groundHeight;
+    public bool IsFellOffTheGround
+    {
+        get
+        {
+            return transform.position.y < groundHeight || (transform.position.y == groundHeight && jumpStatus == -1);
+        }
+    }
 
     private const int ZombieLayer0 = 5;
 
@@ -51,7 +60,7 @@ public class Zombie : PoolableObject
         Init();
 
         maxJumpHeight = boxCollider.size.y * 2f;
-        jumpAcceleration = -jumpSpeed * jumpSpeed / (maxJumpHeight * 2f);
+        maxJumpAcceleration = -jumpSpeed * jumpSpeed / (2 * maxJumpHeight);
     }
 
     public override void Init()
@@ -93,6 +102,7 @@ public class Zombie : PoolableObject
             {
                 isTouchingScreen = true;
                 jumpStatus = 1;
+                jumpAcceleration = maxJumpAcceleration;
             }
         }
     }
@@ -121,6 +131,20 @@ public class Zombie : PoolableObject
         else
             rigidBody.gravityScale = fallingGravityScale;
 
+        //if (jumpStatus == 1)
+        //{
+        //    float v = Mathf.Sqrt(Mathf.Max(2 * jumpAcceleration * CurrentHeight + jumpSpeed * jumpSpeed, 0f));
+        //    if (!isTouchingScreen && CurrentHeight < 0.75f * maxJumpHeight && jumpAcceleration == maxJumpAcceleration)
+        //        jumpAcceleration = -v * v / (2f * (0.75f * maxJumpHeight - CurrentHeight));
+        //    if (v == 0f)
+        //        if (isTouchingScreen)
+        //            jumpStatus = 2;
+        //        else
+        //            jumpStatus = -1;
+        //    transform.position += Vector3.up * v * Time.deltaTime;
+        //}
+        //if (jumpStatus == 2 && !isTouchingScreen)
+        //    jumpStatus = -1;
         if (jumpStatus == 1)
         {
             float v = Mathf.Sqrt(Mathf.Max(2 * jumpAcceleration * CurrentHeight + jumpSpeed * jumpSpeed, 0f));
@@ -136,21 +160,11 @@ public class Zombie : PoolableObject
         }
         if (jumpStatus == 2 && isTouchingScreen == false)
             jumpStatus = -1;
-
-        //if (isOnGround == 0 && dForward > 0)
-        //{
-        //    tForward += Time.deltaTime;
-        //    float v = 2 * dForward * (1 - tForward);
-        //    if (v < 0f)
-        //        dForward = tForward = 0f;
+        //if (rigidBody.velocity.y <= 0f && jumpStatus != 0)
+        //    if (isTouchingScreen)
+        //        jumpStatus = 2;
         //    else
-        //        rigidBody.velocity = new Vector2(v, rigidBody.velocity.y);
-        //}
-
-        //if (isOnGround == 0 && rigidBody.velocity.y <= 0)
-        //    rigidBody.gravityScale = fallingGravityScale;
-        //else
-        //    rigidBody.gravityScale = onGroundGravityScale;
+        //        jumpStatus = -1;
     }
 
     private void Jump()
@@ -182,7 +196,7 @@ public class Zombie : PoolableObject
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Road"))
+        if (collision.gameObject.CompareTag("Road") && transform.position.y > collision.gameObject.transform.position.y)
         {
             jumpStatus = 0;
             groundHeight = collision.transform.position.y;

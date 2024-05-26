@@ -29,7 +29,8 @@ public class ZombieManager : Manager
             Zombie result = null;
             float maxX = -GameManager.ScreenWidth;
             foreach (Zombie zombie in zombieList)
-                if (!zombie.IsFellOffTheGround && zombie.transform.position.x > maxX)
+                //if (!zombie.IsFellOffTheGround && zombie.transform.position.x > maxX)
+                if (zombie.JumpStatus != -1 && zombie.transform.position.x > maxX)
                 { result = zombie; maxX = zombie.transform.position.x; }
             return result;
         }
@@ -100,7 +101,7 @@ public class ZombieManager : Manager
                     {
                         float t = (FirstZombie.transform.position.x - zombie.transform.position.x)
                             / GameManager.Instance.ScrollBackSpeed * 0.9f;
-                        zombie.CallTriggerJump(t + 0.01f);
+                        zombie.CallTriggerJump(t + 0.001f);
                     }
             }
             if (touch.phase == TouchPhase.Ended)
@@ -111,7 +112,7 @@ public class ZombieManager : Manager
                     {
                         float t = (FirstZombie.transform.position.x - zombie.transform.position.x)
                             / GameManager.Instance.ScrollBackSpeed;
-                        zombie.CallTriggerFall(t + 0.01f);
+                        zombie.CallTriggerFall(t + 0.001f);
                     }
                 }
             }
@@ -125,6 +126,8 @@ public class ZombieManager : Manager
         associatedX = new List<float>();
 
         float availableWidth = 0.3f * GameManager.ScreenWidth;
+        if (Count > 20)
+            availableWidth = 0.4f * GameManager.ScreenWidth;
         float lastPossibleXPosition = -0.4f * GameManager.ScreenWidth;
 
         float d = availableWidth / zombieList.Count;
