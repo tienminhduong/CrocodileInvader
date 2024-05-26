@@ -77,7 +77,7 @@ public class ZombieManager : Manager
     private bool AreAllOnGround()
     {
         foreach (Zombie zombie in zombieList)
-            if (zombie.IsOnGround != 1) return false;
+            if (zombie.JumpStatus != 0) return false;
         return true;
     }
 
@@ -95,7 +95,7 @@ public class ZombieManager : Manager
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
-                if (FirstZombie && FirstZombie.IsOnGround == 1)
+                if (FirstZombie && FirstZombie.JumpStatus == 0)
                     foreach (Zombie zombie in zombieList)
                     {
                         float t = (FirstZombie.transform.position.x - zombie.transform.position.x)
@@ -105,7 +105,7 @@ public class ZombieManager : Manager
             }
             if (touch.phase == TouchPhase.Ended)
             {
-                if (FirstZombie && FirstZombie.IsOnGround == 0)
+                if (FirstZombie)
                 {
                     foreach (Zombie zombie in zombieList)
                     {
