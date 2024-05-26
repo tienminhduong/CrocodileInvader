@@ -15,7 +15,7 @@ public class Zombie : PoolableObject
     private float waitForJump;
     private float waitForFall;
     private float maxJumpHeight;
-    private float groundHeight;
+    [SerializeField] private float groundHeight;
 
     private float dForward;
     private float tForward;
@@ -111,7 +111,7 @@ public class Zombie : PoolableObject
         dForward = GameManager.ScreenWidth / 20f;
         if (Random.Range(0, 100) < 10 && GameManager.Instance.Zombies.FirstZombie)
             dForward += (GameManager.Instance.Zombies.FirstZombie.transform.position.x - transform.position.x) * 0.5f;
-        if (Random.Range(0, 100) < 30 || transform.position.x + dForward >= -0.1f * GameManager.ScreenWidth)
+        if (Random.Range(0, 100) < 10 || transform.position.x + dForward >= -0.1f * GameManager.ScreenWidth)
             dForward = 0f;
 
         rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -135,6 +135,10 @@ public class Zombie : PoolableObject
         {
             if (!collisions.Contains(collision))
                 collisions.Add(collision);
+        }
+        else if (collision.gameObject.CompareTag("Bomb"))
+        {
+            RemoveSelf();
         }
     }
 

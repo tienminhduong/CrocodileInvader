@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class HumanManager : Manager
 {
-    public override PoolableObject GetItem(int id = 0)
-    {
-        Human h = (Human)base.GetItem(id);
-        h.transform.position = GameManager.Instance.SpawnerPosition;
-        h.Init();
-
-        return h;
-    }
-
     // Start is called before the first frame update
     void Start()
     {

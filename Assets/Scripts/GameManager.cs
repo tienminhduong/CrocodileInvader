@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -24,12 +25,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float scrollBackSpeed;
     [SerializeField] private float deltaSpawnTime;
 
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI zombieNumberText;
+    [SerializeField] private TextMeshProUGUI coinNumberText;
+    [SerializeField] private TextMeshProUGUI brainNumberText;
+    [SerializeField] private GameObject pausedUI;
+
 
     private int coinNumber;
     private int brainNumber;
     private int initialZombieNumber;
 
-    private float t;
+    private float spawnTimeCount;
 
     #region Properties
     public float ScrollBackSpeed => scrollBackSpeed;
@@ -51,8 +58,6 @@ public class GameManager : MonoBehaviour
     }
 
     public ZombieManager Zombies => (ZombieManager)managers[0];
-    public RoadManager Roads => (RoadManager)managers[1];
-    public HumanManager Humans => (HumanManager)managers[2];
     #endregion Properties
 
 
@@ -62,20 +67,33 @@ public class GameManager : MonoBehaviour
         Debug.Log("ScreenSize: " + ScreenWidth + "x" + ScreenHeight);
 
         initialZombieNumber = 3;
-        brainNumber = initialZombieNumber;
+        brainNumber = 0;
         GenerateZombies(initialZombieNumber);
-        t = 0f;
+        spawnTimeCount = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        t += Time.deltaTime;
-        if (t >= deltaSpawnTime && CanSpawn)
+        SpawnItem();
+        UpdateText();
+    }
+
+    private void SpawnItem()
+    {
+        spawnTimeCount += Time.deltaTime;
+        if (spawnTimeCount >= deltaSpawnTime && CanSpawn)
         {
             managers[Random.Range(2, managers.Count)].CallSpawnItem();
-            t = 0f;
+            spawnTimeCount = 0f;
         }
+    }
+
+    private void UpdateText()
+    {
+        zombieNumberText.text = "x" + Zombies.Count.ToString();
+        coinNumberText.text = coinNumber.ToString();
+        brainNumberText.text = brainNumber.ToString();
     }
 
     public void GenerateZombies(int number = 1)
@@ -83,5 +101,19 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < number; i++)
             Zombies.AddZombie();
         brainNumber += number;
+    }
+
+    public void IncCoin() { coinNumber++; }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        pausedUI.SetActive(true);
+    }
+
+    public void ContinueGame()
+    {
+        Time.timeScale = 1f;
+        pausedUI.SetActive(false);
     }
 }

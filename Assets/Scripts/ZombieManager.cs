@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ZombieManager : Manager
 {
@@ -33,6 +34,8 @@ public class ZombieManager : Manager
             return result;
         }
     }
+
+    public int Count => zombieList.Count;
     //public Zombie LastZombie { get { return zombieList.Count > 0 ? zombieList[^1] : null; } }
     #endregion Properties
 
@@ -87,7 +90,7 @@ public class ZombieManager : Manager
 
     private void ZombiesJumping()
     {
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
         {
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
@@ -148,5 +151,10 @@ public class ZombieManager : Manager
                 zombieList[i].transform.position += Vector3.left * d * Time.deltaTime;
             }
         }
+    }
+
+    public void ChangeForm(int id)
+    {
+
     }
 }

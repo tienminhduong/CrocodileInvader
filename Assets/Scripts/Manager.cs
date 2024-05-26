@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour
 
     public int PrefabsCount => objectPrefabs.Count;
 
-    protected virtual void Init(int id = 0)
+    void Init(int id = 0)
     {
         if (pooling == null)
         {
@@ -37,7 +37,9 @@ public class Manager : MonoBehaviour
 
         PoolableObject p = pooling[id].Dequeue();
         p.gameObject.SetActive(true);
+        p.transform.position = GameManager.Instance.SpawnerPosition;
         p.Init();
+
         return p;
     }
 
@@ -49,6 +51,7 @@ public class Manager : MonoBehaviour
 
     public virtual void CallSpawnItem()
     {
+        GetItem(Random.Range(0, PrefabsCount));
     }
 
     private void Awake()
