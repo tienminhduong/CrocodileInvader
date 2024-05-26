@@ -18,25 +18,12 @@ public class ZombieManager : Manager
     [SerializeField] private List<float> associatedX;
     private int currentZombieID = 0;
     private int layerCount = 1;
+    private Zombie firstZombie;
 
     #region Properties
-    //public Zombie FirstZombie { get { return zombieList.Count > 0 ? zombieList[0] : null; } }
-    public Zombie FirstZombie
-    {
-        get
-        {
-            if (zombieList.Count == 0) return null;
-            Zombie result = null;
-            float maxX = -GameManager.ScreenWidth;
-            foreach (Zombie zombie in zombieList)
-                if (!zombie.IsFellOffTheGround && zombie.transform.position.x > maxX)
-                { result = zombie; maxX = zombie.transform.position.x; }
-            return result;
-        }
-    }
+    public Zombie FirstZombie => firstZombie;
 
     public int Count => zombieList.Count;
-    //public Zombie LastZombie { get { return zombieList.Count > 0 ? zombieList[^1] : null; } }
     #endregion Properties
 
     // Start is called before the first frame update
@@ -48,9 +35,20 @@ public class ZombieManager : Manager
     void Update()
     {
         CollectingNulls();
+        LoadFirstZombie();
         ZombiesJumping();
         CalculatePosition();
         RearrangeZombies();
+    }
+
+    private void LoadFirstZombie()
+    {
+        if (zombieList.Count == 0) { firstZombie = null; return; }
+        firstZombie = null;
+        float maxX = -GameManager.ScreenWidth;
+        foreach (Zombie zombie in zombieList)
+            if (zombie.JumpStatus != -1 && zombie.transform.position.x > maxX)
+            { firstZombie = zombie; maxX = zombie.transform.position.x; }
     }
 
     private void CollectingNulls()
@@ -77,7 +75,7 @@ public class ZombieManager : Manager
     private bool AreAllOnGround()
     {
         foreach (Zombie zombie in zombieList)
-            if (zombie.IsOnGround != 1) return false;
+            if (zombie.JumpStatus != 0) return false;
         return true;
     }
 
@@ -95,23 +93,23 @@ public class ZombieManager : Manager
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
-                if (FirstZombie && FirstZombie.IsOnGround == 1)
+                if (FirstZombie && FirstZombie.JumpStatus == 0)
                     foreach (Zombie zombie in zombieList)
                     {
                         float t = (FirstZombie.transform.position.x - zombie.transform.position.x)
                             / GameManager.Instance.ScrollBackSpeed * 0.9f;
-                        zombie.CallTriggerJump(t + 0.01f);
+                        zombie.CallTriggerJump(t + 0.001f);
                     }
             }
             if (touch.phase == TouchPhase.Ended)
             {
-                if (FirstZombie && FirstZombie.IsOnGround == 0)
+                if (FirstZombie)
                 {
                     foreach (Zombie zombie in zombieList)
                     {
                         float t = (FirstZombie.transform.position.x - zombie.transform.position.x)
                             / GameManager.Instance.ScrollBackSpeed;
-                        zombie.CallTriggerFall(t + 0.01f);
+                        zombie.CallTriggerFall(t + 0.001f);
                     }
                 }
             }
@@ -125,6 +123,8 @@ public class ZombieManager : Manager
         associatedX = new List<float>();
 
         float availableWidth = 0.3f * GameManager.ScreenWidth;
+        if (Count > 20)
+            availableWidth = 0.4f * GameManager.ScreenWidth;
         float lastPossibleXPosition = -0.4f * GameManager.ScreenWidth;
 
         float d = availableWidth / zombieList.Count;
