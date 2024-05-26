@@ -28,7 +28,7 @@ public class PoolableObject : MonoBehaviour
 
     public virtual void Init() { }
 
-    protected void DestroyOnOutOfBounds()
+    protected virtual void DestroyOnOutOfBounds()
     {
         if (transform.position.x + Width / 2 < GameManager.ScreenWidth * -0.55f)
             RemoveSelf();

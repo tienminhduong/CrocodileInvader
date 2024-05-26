@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     private int coinNumber;
     private int brainNumber;
-    private int initialZombieNumber;
+    [SerializeField] private int initialZombieNumber;
 
     private float spawnTimeCount;
 
@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("ScreenSize: " + ScreenWidth + "x" + ScreenHeight);
 
-        initialZombieNumber = 3;
         brainNumber = 0;
         GenerateZombies(initialZombieNumber);
         spawnTimeCount = 0f;

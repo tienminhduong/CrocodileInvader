@@ -49,6 +49,9 @@ TagManager:
   - name: Road
     uniqueID: 1777393127
     locked: 0
+  - name: Vehicle
+    uniqueID: 3924760555
+    locked: 0
   - name: Layer3
     uniqueID: 3822436665
     locked: 0
