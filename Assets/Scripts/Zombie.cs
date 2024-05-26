@@ -23,8 +23,6 @@ public class Zombie : PoolableObject
     /// </summary>
     [SerializeField] private int jumpStatus;
     [SerializeField] private float jumpSpeed;
-    [SerializeField] private float fallSpeed;
-    [SerializeField] private float floatSpeed;
 
     private float jumpAcceleration;
     private float maxJumpAcceleration;
@@ -35,7 +33,7 @@ public class Zombie : PoolableObject
     private float dForward;
     private float tForward;
 
-    [SerializeField] private float onGroundGravityScale;
+    [SerializeField] private float floatingGravityScale;
     [SerializeField] private float fallingGravityScale;
 
 
@@ -43,7 +41,6 @@ public class Zombie : PoolableObject
     public override float Height => boxCollider.size.y;
     public int JumpStatus => jumpStatus;
     public int CollisionNumber => collisions.Count;
-    //public bool IsFellOffTheGround => transform.position.y < groundHeight;
     public bool IsFellOffTheGround
     {
         get
@@ -103,6 +100,12 @@ public class Zombie : PoolableObject
                 isTouchingScreen = true;
                 jumpStatus = 1;
                 jumpAcceleration = maxJumpAcceleration;
+
+                dForward = GameManager.ScreenWidth / 20f;
+                if (Random.Range(0, 100) < 10 && GameManager.Instance.Zombies.FirstZombie)
+                    dForward += (GameManager.Instance.Zombies.FirstZombie.transform.position.x - transform.position.x) * 0.5f;
+                if (Random.Range(0, 100) < 10 || transform.position.x + dForward >= -0.1f * GameManager.ScreenWidth)
+                    dForward = 0f;
             }
         }
     }
@@ -112,10 +115,7 @@ public class Zombie : PoolableObject
         {
             waitForFall -= Time.deltaTime;
             if (waitForFall < 0)
-            {
                 isTouchingScreen = false;
-                //jumpStatus = -1;
-            }
         }
     }
 
@@ -127,71 +127,30 @@ public class Zombie : PoolableObject
         if (jumpStatus == 1)
             rigidBody.gravityScale = 0f;
         else if (jumpStatus == 2)
-            rigidBody.gravityScale = 0.3f;
+            rigidBody.gravityScale = floatingGravityScale;
         else
             rigidBody.gravityScale = fallingGravityScale;
 
-        //if (jumpStatus == 1)
-        //{
-        //    float v = Mathf.Sqrt(Mathf.Max(2 * jumpAcceleration * CurrentHeight + jumpSpeed * jumpSpeed, 0f));
-        //    if (!isTouchingScreen && CurrentHeight < 0.75f * maxJumpHeight && jumpAcceleration == maxJumpAcceleration)
-        //        jumpAcceleration = -v * v / (2f * (0.75f * maxJumpHeight - CurrentHeight));
-        //    if (v == 0f)
-        //        if (isTouchingScreen)
-        //            jumpStatus = 2;
-        //        else
-        //            jumpStatus = -1;
-        //    transform.position += Vector3.up * v * Time.deltaTime;
-        //}
-        //if (jumpStatus == 2 && !isTouchingScreen)
-        //    jumpStatus = -1;
         if (jumpStatus == 1)
         {
             float v = Mathf.Sqrt(Mathf.Max(2 * jumpAcceleration * CurrentHeight + jumpSpeed * jumpSpeed, 0f));
             transform.position += Vector3.up * v * Time.deltaTime;
+
             if (CurrentHeight >= maxJumpHeight * 0.75f && isTouchingScreen == false)
-            {
                 jumpStatus = -1;
-            }
+
             if (CurrentHeight > maxJumpHeight && isTouchingScreen == true)
-            {
                 jumpStatus = 2;
-            }
+
+            tForward += Time.deltaTime;
+            float vF = 2 * dForward * (1 - tForward);
+            if (vF < 0f)
+                dForward = tForward = 0f;
+            else
+                transform.position += Vector3.right * vF * Time.deltaTime;
         }
         if (jumpStatus == 2 && isTouchingScreen == false)
             jumpStatus = -1;
-        //if (rigidBody.velocity.y <= 0f && jumpStatus != 0)
-        //    if (isTouchingScreen)
-        //        jumpStatus = 2;
-        //    else
-        //        jumpStatus = -1;
-    }
-
-    private void Jump()
-    {
-        
-
-        //jumpStatus = 1;
-        //rigidBody.velocity = Vector3.zero;
-        //float jumpForce = Mathf.Sqrt(maxJumpHeight * Physics2D.gravity.y * rigidBody.gravityScale * (-2))
-        //    * rigidBody.mass;
-
-        //dForward = GameManager.ScreenWidth / 20f;
-        //if (Random.Range(0, 100) < 10 && GameManager.Instance.Zombies.FirstZombie)
-        //    dForward += (GameManager.Instance.Zombies.FirstZombie.transform.position.x - transform.position.x) * 0.5f;
-        //if (Random.Range(0, 100) < 10 || transform.position.x + dForward >= -0.1f * GameManager.ScreenWidth)
-        //    dForward = 0f;
-
-        //rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        //jumpStatus = 1;
-
-    }
-
-    private void Fall()
-    {
-        //if (jumpStatus != -1)
-            //return;
-        //transform.position += Vector3.down * fallSpeed * Time.deltaTime;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -200,7 +159,7 @@ public class Zombie : PoolableObject
         {
             jumpStatus = 0;
             groundHeight = collision.transform.position.y;
-            rigidBody.gravityScale = onGroundGravityScale;
+            //rigidBody.gravityScale = onGroundGravityScale;
         }
         else if (collision.gameObject.CompareTag("Object"))
         {

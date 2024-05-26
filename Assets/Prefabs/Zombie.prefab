@@ -446,10 +446,8 @@ MonoBehaviour:
   legAnimator: {fileID: 4189021125328989617}
   groundHeight: 0
   jumpStatus: -1
-  jumpSpeed: 20
-  fallSpeed: 10
-  floatSpeed: 2.5
-  onGroundGravityScale: 1
+  jumpSpeed: 15
+  floatingGravityScale: 0.5
   fallingGravityScale: 5
 --- !u!61 &4268191399708254453
 BoxCollider2D:
