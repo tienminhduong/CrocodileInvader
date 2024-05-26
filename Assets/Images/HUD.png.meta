@@ -773,6 +773,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: HUD_31
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 832
+        width: 232
+        height: 191
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5001aa1203511ff4a88464834fafda53
+      internalID: -1037579585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -809,6 +830,7 @@ TextureImporter:
       HUD_29: 413187403
       HUD_3: -2040195374
       HUD_30: -1172347973
+      HUD_31: -1037579585
       HUD_4: -538013683
       HUD_5: -1634666439
       HUD_6: -1181151667

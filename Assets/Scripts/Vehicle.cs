@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Vehicle : PoolableObject
@@ -8,6 +9,8 @@ public class Vehicle : PoolableObject
     [SerializeField] private int numberHumansContains;
     [SerializeField] private int numberHumanNeeded;
     [SerializeField] private List<Collision2D> collisions = new List<Collision2D>();
+
+    [SerializeField] private TextMeshProUGUI text;
 
     public int numberCollision;
     public override void Init()
@@ -36,6 +39,7 @@ public class Vehicle : PoolableObject
             RemoveSelf();
             GameManager.Instance.GenerateZombies(numberHumansContains);
         }
+        text.text = CollisionCount.ToString();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

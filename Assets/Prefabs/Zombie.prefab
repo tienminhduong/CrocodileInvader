@@ -446,7 +446,7 @@ MonoBehaviour:
   legAnimator: {fileID: 4189021125328989617}
   groundHeight: 0
   jumpStatus: -1
-  jumpSpeed: 15
+  jumpSpeed: 18
   floatingGravityScale: 0.5
   fallingGravityScale: 5
 --- !u!61 &4268191399708254453

@@ -148,7 +148,7 @@ public class ZombieManager : Manager
                 if (zombieList[i].transform.position.x == associatedX[i])
                     continue;
                 float d = zombieList[i].transform.position.x - associatedX[i];
-                zombieList[i].transform.position += Vector3.left * d * Time.deltaTime;
+                zombieList[i].transform.position += 2 * d * Time.deltaTime * Vector3.left;
             }
         }
     }

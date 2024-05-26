@@ -159,7 +159,7 @@ public class Zombie : PoolableObject
         {
             jumpStatus = 0;
             groundHeight = collision.transform.position.y;
-            //rigidBody.gravityScale = onGroundGravityScale;
+            isTouchingScreen = false;
         }
         else if (collision.gameObject.CompareTag("Object"))
         {
