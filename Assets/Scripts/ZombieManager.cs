@@ -16,7 +16,7 @@ public class ZombieManager : Manager
 
     [SerializeField] private List<Zombie> zombieList = new List<Zombie>();
     [SerializeField] private List<float> associatedX;
-    private int currentZombieID = 0;
+    private int currentZombieID = 1;
     private int layerCount = 1;
     private Zombie firstZombie;
 

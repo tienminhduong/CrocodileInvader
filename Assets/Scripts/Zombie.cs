@@ -22,12 +22,12 @@ public class Zombie : PoolableObject
     /// -1: Falling, 0: On ground, 1: Jumping, 2: Floating
     /// </summary>
     [SerializeField] private int jumpStatus;
-    [SerializeField] private float jumpSpeed;
+    [SerializeField] protected float jumpSpeed;
 
     private float jumpAcceleration;
     private float maxJumpAcceleration;
 
-    private float maxJumpHeight;
+    protected float maxJumpHeight;
     private float CurrentHeight => transform.position.y - groundHeight;
 
     private float dForward;
@@ -77,7 +77,7 @@ public class Zombie : PoolableObject
     {
         base.Update();
         UpdateJumpFall();
-        legAnimator.SetBool("isOnGround", JumpStatus == 0);
+        if (legAnimator) legAnimator.SetBool("isOnGround", JumpStatus == 0);
     }
 
     public void SetLayer(int layer)
@@ -166,10 +166,14 @@ public class Zombie : PoolableObject
             if (!collisions.Contains(collision))
                 collisions.Add(collision);
         }
-        else if (collision.gameObject.CompareTag("Bomb"))
-        {
+
+        OnCollisionEnterObjectBehavior(collision);
+    }
+
+    protected virtual void OnCollisionEnterObjectBehavior(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bomb"))
             RemoveSelf();
-        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
