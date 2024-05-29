@@ -11,7 +11,6 @@ public class Zombie : PoolableObject
     [SerializeField] private Rigidbody2D rigidBody;
     [SerializeField] private List<SpriteRenderer> renderers = new List<SpriteRenderer>();
     [SerializeField] private List<Collision2D> collisions = new List<Collision2D>();
-    [SerializeField] private Animator legAnimator;
 
     private float waitForJump;
     private float waitForFall;
@@ -22,7 +21,7 @@ public class Zombie : PoolableObject
     /// -1: Falling, 0: On ground, 1: Jumping, 2: Floating
     /// </summary>
     [SerializeField] private int jumpStatus;
-    [SerializeField] protected float jumpSpeed;
+    [SerializeField] private float jumpSpeed;
 
     private float jumpAcceleration;
     private float maxJumpAcceleration;
@@ -41,6 +40,7 @@ public class Zombie : PoolableObject
     public override float Height => boxCollider.size.y;
     public int JumpStatus => jumpStatus;
     public int CollisionNumber => collisions.Count;
+    public bool IsTouchingScreen => isTouchingScreen;
     public bool IsFellOffTheGround
     {
         get
@@ -77,7 +77,6 @@ public class Zombie : PoolableObject
     {
         base.Update();
         UpdateJumpFall();
-        if (legAnimator) legAnimator.SetBool("isOnGround", JumpStatus == 0);
     }
 
     public void SetLayer(int layer)
@@ -95,7 +94,7 @@ public class Zombie : PoolableObject
         if (waitForJump > 0)
         {
             waitForJump -= Time.deltaTime;
-            if (waitForJump < 0)
+            if (waitForJump < 0 && jumpStatus == 0)
             {
                 isTouchingScreen = true;
                 jumpStatus = 1;
@@ -123,6 +122,8 @@ public class Zombie : PoolableObject
     {
         CheckJump();
         CheckFall();
+        //if (Input.touchCount == 0)
+            //isTouchingScreen = false;
 
         if (jumpStatus == 1)
             rigidBody.gravityScale = 0f;
@@ -139,7 +140,7 @@ public class Zombie : PoolableObject
             if (CurrentHeight >= maxJumpHeight * 0.75f && isTouchingScreen == false)
                 jumpStatus = -1;
 
-            if (CurrentHeight > maxJumpHeight && isTouchingScreen == true)
+            if (CurrentHeight >= maxJumpHeight)
                 jumpStatus = 2;
 
             tForward += Time.deltaTime;
@@ -147,7 +148,16 @@ public class Zombie : PoolableObject
             if (vF < 0f)
                 dForward = tForward = 0f;
             else
-                transform.position += Vector3.right * vF * Time.deltaTime;
+            {
+                float d = vF * Time.deltaTime;
+                transform.position += d * Vector3.right;
+                if (waitForFall > 0.001f)
+                {
+                    waitForFall -= d / GameManager.Instance.ScrollBackSpeed;
+                    if (waitForFall <= 0f)
+                        waitForFall = 0.001f;
+                }
+            }
         }
         if (jumpStatus == 2 && isTouchingScreen == false)
             jumpStatus = -1;

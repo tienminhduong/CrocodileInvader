@@ -2523,10 +2523,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberRepool: 10
   objectPrefabs:
-  - {fileID: 8281455018538916269, guid: 67ab339ab33e19147b554baa0eed473a, type: 3}
+  - {fileID: 6168291106507035941, guid: 67ab339ab33e19147b554baa0eed473a, type: 3}
   - {fileID: 1016976641151051703, guid: c0888d103426fa643915f2348ad7543b, type: 3}
   zombieList: []
   associatedX: []
+  currentZombieID: 0
 --- !u!4 &1774429094
 Transform:
   m_ObjectHideFlags: 0
