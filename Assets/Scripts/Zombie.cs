@@ -139,7 +139,6 @@ public class Zombie : PoolableObject
 
             if (CurrentHeight >= maxJumpHeight * 0.75f && isTouchingScreen == false)
                 jumpStatus = -1;
-
             if (CurrentHeight >= maxJumpHeight)
                 jumpStatus = 2;
 
