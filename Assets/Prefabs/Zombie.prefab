@@ -389,7 +389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6892728394721027602}
-  - component: {fileID: 8281455018538916269}
+  - component: {fileID: 6168291106507035941}
   - component: {fileID: 4268191399708254453}
   - component: {fileID: 5446293473835256289}
   m_Layer: 6
@@ -420,7 +420,7 @@ Transform:
   - {fileID: 8746971002572548803}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8281455018538916269
+--- !u!114 &6168291106507035941
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4824370102868503365}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c928de1bfd6d0434a9eeb4d50d760585, type: 3}
+  m_Script: {fileID: 11500000, guid: 5fa06de35751a0b418afa0370cb4b1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   scrollbackModifier: 0
@@ -443,12 +443,12 @@ MonoBehaviour:
   - {fileID: 4213156108182167759}
   - {fileID: 3481537519562787333}
   - {fileID: 5352284853012130168}
-  legAnimator: {fileID: 4189021125328989617}
   groundHeight: 0
   jumpStatus: -1
   jumpSpeed: 18
   floatingGravityScale: 0.5
   fallingGravityScale: 5
+  legAnimator: {fileID: 4189021125328989617}
 --- !u!61 &4268191399708254453
 BoxCollider2D:
   m_ObjectHideFlags: 0

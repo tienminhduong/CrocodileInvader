@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
     }
 
     public ZombieManager Zombies => (ZombieManager)managers[0];
+    public CoinManager Coins => (CoinManager)managers[4];
     #endregion Properties
 
 

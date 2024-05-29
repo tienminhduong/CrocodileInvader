@@ -24,6 +24,10 @@ public class Bomb : PoolableObject
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Zombie"))
+        {
             RemoveSelf();
+            if (GameManager.Instance.Zombies.CurrentFormID == 1)
+                GameManager.Instance.Coins.TranformIntoCoin(this, true, 0);
+        }
     }
 }

@@ -9,6 +9,6 @@ public class Surface : MonoBehaviour
     public void Resize(float width)
     {
         foreach (var collider in colliders)
-            collider.size = new Vector2(width - 0.5f, collider.size.y);
+            collider.size = new Vector2(width, collider.size.y);
     }
 }

@@ -15,4 +15,18 @@ public class CoinManager : Manager
     {
         
     }
+
+    public override void CallSpawnItem()
+    {
+        GetItem(Random.Range(0, 2));
+    }
+
+    public void TranformIntoCoin(PoolableObject item, bool isBomb, int vehicleID)
+    {
+        int ID = 3;
+        if (!isBomb)
+            ID += vehicleID + 1;
+        CoinContainer cc = (CoinContainer)GetItem(ID);
+        cc.transform.position = item.transform.position;
+    }
 }

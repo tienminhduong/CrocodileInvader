@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoldZombie : Zombie
+public class BaseZombie : Zombie
 {
+    [SerializeField] private Animator legAnimator;
+
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
-        SetJumpHeight(1.2f);
     }
 
     // Update is called once per frame
-    //protected override void Update()
-    //{
-
-    //}
-    protected override void OnCollisionEnterObjectBehavior(Collision2D collision)
+    protected override void Update()
     {
+        base.Update();
+        legAnimator.SetBool("isOnGround", JumpStatus == 0);
     }
 }

@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollbackModifier: 1
-  id: 0
+  id: 2
   boxCollider: {fileID: 8372518491974765912}
 --- !u!50 &7812034339282892326
 Rigidbody2D:
@@ -387,7 +387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7268984402700332229, guid: 5cace21531247de44893cc22577efba2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.449463
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7268984402700332229, guid: 5cace21531247de44893cc22577efba2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -453,7 +453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7268984402700332229, guid: 5cace21531247de44893cc22577efba2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.449463
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7268984402700332229, guid: 5cace21531247de44893cc22577efba2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -597,7 +597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7268984402700332229, guid: 5cace21531247de44893cc22577efba2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.449463
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7268984402700332229, guid: 5cace21531247de44893cc22577efba2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -819,7 +819,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7268984402700332229, guid: 5cace21531247de44893cc22577efba2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.449463
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7268984402700332229, guid: 5cace21531247de44893cc22577efba2, type: 3}
       propertyPath: m_LocalRotation.w

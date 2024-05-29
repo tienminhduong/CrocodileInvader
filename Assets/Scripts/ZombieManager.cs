@@ -16,7 +16,7 @@ public class ZombieManager : Manager
 
     [SerializeField] private List<Zombie> zombieList = new List<Zombie>();
     [SerializeField] private List<float> associatedX;
-    private int currentZombieID = 1;
+    [SerializeField] private int currentZombieID;
     private int layerCount = 1;
     private Zombie firstZombie;
 
@@ -24,6 +24,7 @@ public class ZombieManager : Manager
     public Zombie FirstZombie => firstZombie;
 
     public int Count => zombieList.Count;
+    public int CurrentFormID => currentZombieID;
     #endregion Properties
 
     // Start is called before the first frame update
@@ -86,6 +87,11 @@ public class ZombieManager : Manager
         return true;
     }
 
+    private float GetDelayedTime(Zombie zombie)
+    {
+        return (FirstZombie.transform.position.x - zombie.transform.position.x) / GameManager.Instance.ScrollBackSpeed * 0.75f + 0.001f;
+    }
+
     private void ZombiesJumping()
     {
         if (Input.touchCount > 0 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
@@ -95,23 +101,25 @@ public class ZombieManager : Manager
             {
                 if (FirstZombie && FirstZombie.JumpStatus == 0)
                     foreach (Zombie zombie in zombieList)
-                    {
-                        float t = (FirstZombie.transform.position.x - zombie.transform.position.x)
-                            / GameManager.Instance.ScrollBackSpeed * 0.9f;
-                        zombie.CallTriggerJump(t + 0.001f);
-                    }
+                        zombie.CallTriggerJump(GetDelayedTime(zombie));
             }
-            if (touch.phase == TouchPhase.Ended)
+        }
+        if (FirstZombie)
+        {
+            bool condition = false;
+            if (Input.touchCount == 0)
+                condition = true;
+            if (Input.touchCount > 0)
             {
-                if (FirstZombie)
-                {
-                    foreach (Zombie zombie in zombieList)
-                    {
-                        float t = (FirstZombie.transform.position.x - zombie.transform.position.x)
-                            / GameManager.Instance.ScrollBackSpeed;
-                        zombie.CallTriggerFall(t + 0.001f);
-                    }
-                }
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Ended)
+                    condition = true;
+            }
+            if (condition)
+            {
+                foreach (Zombie zombie in zombieList)
+                    if (zombie.IsTouchingScreen)
+                        zombie.CallTriggerFall(GetDelayedTime(zombie));
             }
         }
     }
