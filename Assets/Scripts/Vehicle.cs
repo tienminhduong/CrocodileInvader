@@ -45,7 +45,15 @@ public class Vehicle : PoolableObject
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Zombie"))
-            collisions.Add(collision);
+        {
+            if (GameManager.Instance.Zombies.CurrentFormID == 0)
+                collisions.Add(collision);
+            else if (GameManager.Instance.Zombies.CurrentFormID == 1)
+            {
+                //Call coin manager generate coin
+                RemoveSelf();
+            }
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)

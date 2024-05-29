@@ -24,6 +24,7 @@ public class ZombieManager : Manager
     public Zombie FirstZombie => firstZombie;
 
     public int Count => zombieList.Count;
+    public int CurrentFormID => currentZombieID;
     #endregion Properties
 
     // Start is called before the first frame update

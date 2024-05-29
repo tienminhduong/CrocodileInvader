@@ -56,7 +56,14 @@ public class Zombie : PoolableObject
     {
         Init();
 
-        maxJumpHeight = boxCollider.size.y * 2f;
+        //maxJumpHeight = boxCollider.size.y * 2f;
+        //maxJumpAcceleration = -jumpSpeed * jumpSpeed / (2 * maxJumpHeight);
+        SetJumpHeight(1f);
+    }
+
+    protected void SetJumpHeight(float modifier)
+    {
+        maxJumpHeight = boxCollider.size.y * 2f * modifier;
         maxJumpAcceleration = -jumpSpeed * jumpSpeed / (2 * maxJumpHeight);
     }
 
@@ -122,8 +129,6 @@ public class Zombie : PoolableObject
     {
         CheckJump();
         CheckFall();
-        //if (Input.touchCount == 0)
-            //isTouchingScreen = false;
 
         if (jumpStatus == 1)
             rigidBody.gravityScale = 0f;
