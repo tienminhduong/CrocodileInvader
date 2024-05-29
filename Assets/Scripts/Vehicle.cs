@@ -51,7 +51,9 @@ public class Vehicle : PoolableObject
             else if (GameManager.Instance.Zombies.CurrentFormID == 1)
             {
                 //Call coin manager generate coin
+                GameManager.Instance.Coins.TranformIntoCoin(this, false, ID);
                 RemoveSelf();
+                GameManager.Instance.GenerateZombies(numberHumansContains);
             }
         }
     }

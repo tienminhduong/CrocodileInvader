@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollbackModifier: 1
-  id: 0
+  id: 2
   boxCollider: {fileID: 8372518491974765912}
 --- !u!50 &7812034339282892326
 Rigidbody2D:

@@ -177,7 +177,7 @@ public class Zombie : PoolableObject
         }
         else if (collision.gameObject.CompareTag("Object"))
         {
-            if (!collisions.Contains(collision))
+            if (ID != 1 && !collisions.Contains(collision))
                 collisions.Add(collision);
         }
 
