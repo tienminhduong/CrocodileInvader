@@ -782,7 +782,7 @@ TextureImporter:
         width: 232
         height: 191
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -790,6 +790,27 @@ TextureImporter:
       bones: []
       spriteID: 5001aa1203511ff4a88464834fafda53
       internalID: -1037579585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 551
+        width: 317
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e7659d44259511418c3976e23704b17
+      internalID: 1881484632
       vertices: []
       indices: 
       edges: []
@@ -831,6 +852,7 @@ TextureImporter:
       HUD_3: -2040195374
       HUD_30: -1172347973
       HUD_31: -1037579585
+      HUD_32: 1881484632
       HUD_4: -538013683
       HUD_5: -1634666439
       HUD_6: -1181151667

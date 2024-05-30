@@ -148,27 +148,6 @@ public class GameManager : MonoBehaviour
 
     private void CheckBonusBlockUpdate()
     {
-        //if (bonusBlockActiveCountTime > 0f)
-        //{
-        //    bonusBlockActiveCountTime -= Time.deltaTime;
-        //    if (bonusBlockActiveCountTime <= 0f)
-        //    {
-        //        //call 2 column coins
-        //        Instance.Coins.GetItem(2);
-
-        //    }
-        //}
-        //if (isCountSpawnBlock)
-        //    bonusBlockCountTime += Time.deltaTime;
-        //if (bonusBlockCountTime >= bonusBlockMaxTime)
-        //{
-        //    RaycastHit2D hit = Physics2D.Raycast((Vector2)SpawnerPosition + Vector2.up * 10f, Vector2.down);
-        //    if (hit.collider && hit.collider.gameObject.CompareTag("Road"))
-        //    {
-        //        bonusBlockCountTime = 0f;
-        //        SetActiveBonusBlock();
-        //    }
-        //}
         if (isCountSpawnBlock)
             bonusBlockCountTime += Time.deltaTime;
         if (bonusBlockCountTime >= bonusBlockMaxTime)
