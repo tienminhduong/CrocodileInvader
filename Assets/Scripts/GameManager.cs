@@ -42,6 +42,20 @@ public class GameManager : MonoBehaviour
 
     [Header("Debug only")]
     [SerializeField] private int spawnOnly;
+    public bool SpawnBombOnly
+    {
+        set
+        {
+            if (value)
+                spawnOnly = 3; //Bomb manager
+            else
+                spawnOnly = -1;
+        }
+        get
+        {
+            return spawnOnly == 3;
+        }
+    }
 
 
     private int coinNumber;

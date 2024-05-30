@@ -28,6 +28,8 @@ public class RoadManager : Manager
         r.transform.position = new Vector3(r.transform.position.x + r.Width / 2,
             nextHeight, transform.position.z);
 
+        if (r.Width == standardWidth[^1])
+            GameManager.Instance.SpawnBombOnly = true;
 
         return r;
     }
@@ -54,6 +56,8 @@ public class RoadManager : Manager
 
     private void SpawnRoad()
     {
+        if (GameManager.Instance.SpawnBombOnly)
+            GameManager.Instance.SpawnBombOnly = false;
         Road r = (Road)GetItem();
 
         // Determine stat for next road
@@ -84,7 +88,7 @@ public class RoadManager : Manager
             else nextHeight = standardHeight[0];
 
             int rand = Random.Range(0, 100);
-            if (rand < 10)
+            if (rand < 10 && GameManager.Instance.BrainNumber >= 15)
                 nextRoadID = standardWidth.Count - 1;
             else
                 nextRoadID = Random.Range(1, standardWidth.Count - 1);
