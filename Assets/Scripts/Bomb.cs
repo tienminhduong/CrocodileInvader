@@ -29,5 +29,7 @@ public class Bomb : PoolableObject
             if (GameManager.Instance.Zombies.CurrentFormID == 1)
                 GameManager.Instance.Coins.TranformIntoCoin(this, true, 0);
         }
+        else if (!collision.gameObject.CompareTag("Road"))
+            RemoveSelf();
     }
 }
