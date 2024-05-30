@@ -36,7 +36,7 @@ public class BonusBlock : MonoBehaviour
 
         transform.position += Vector3.left * GameManager.Instance.ScrollBackSpeed * Time.deltaTime;
         if (transform.position.x + Width / 2 < GameManager.ScreenWidth * -0.55f)
-            gameObject.SetActive(false);
+            GameManager.Instance.SetDeactivateBonusBlock();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -48,8 +48,6 @@ public class BonusBlock : MonoBehaviour
             bottomCover.SetActive(true);
             Time.timeScale = 0f;
             countdownPopUp = 2f;
-
-            //GameManager.Instance.ActivateTransform();
         }
     }
 }

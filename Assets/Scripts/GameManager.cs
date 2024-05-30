@@ -65,6 +65,11 @@ public class GameManager : MonoBehaviour
     private float spawnTimeCount;
     [SerializeField] private int spawnCode = 0; // 0: Normal, 1: Bonus block, 2: Two column coin
 
+    private bool isGameOver = false;
+    private float countDownOver;
+    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private TextMeshProUGUI gameOverScore;
+
     #region Properties
     public float ScrollBackSpeed => scrollBackSpeed + Mathf.Min(brainNumber / 5, 15);
     public int CoinNumber => coinNumber;
@@ -98,6 +103,8 @@ public class GameManager : MonoBehaviour
         brainNumber = 0;
         GenerateZombies(initialZombieNumber);
         spawnTimeCount = 0f;
+        isGameOver = false;
+        countDownOver = 1f;
     }
 
     // Update is called once per frame
@@ -106,6 +113,25 @@ public class GameManager : MonoBehaviour
         CheckBonusBlockUpdate();
         SpawnItem();
         UpdateText();
+        CheckGameOver();
+    }
+
+    private void CheckGameOver()
+    {
+        if (Zombies.Count == 0 && BrainNumber > 0)
+            isGameOver = true;
+
+        if (isGameOver)
+        {
+            countDownOver -= Time.deltaTime;
+            if (countDownOver <= 0f)
+            {
+                //Show lose panel
+                Time.timeScale = 0f;
+                gameOverPanel.SetActive(true);
+                gameOverScore.text = brainNumber.ToString();
+            }
+        }
     }
 
     private void SpawnItem()
@@ -183,6 +209,11 @@ public class GameManager : MonoBehaviour
         bonusBlock.gameObject.SetActive(true);
         bonusBlock.transform.position = new Vector3(SpawnerPosition.x, bonusBlock.transform.position.y, bonusBlock.transform.position.z);
         isCountSpawnBlock = false;
+    }
+    public void SetDeactivateBonusBlock()
+    {
+        bonusBlock.gameObject.SetActive(false);
+        isCountSpawnBlock = true;
     }
 
     public void ActivateTransform()
