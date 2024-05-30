@@ -1782,11 +1782,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 8
+  m_Mass: 800
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 20
-  m_Material: {fileID: 6200000, guid: 366cde7dfefb6864c9a0b84d03b95fdc, type: 2}
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1796,7 +1796,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!61 &2744547773574387302
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1806,7 +1806,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 5223595609751186518}
   m_Enabled: 1
   m_Density: 0.19
-  m_Material: {fileID: 6200000, guid: 366cde7dfefb6864c9a0b84d03b95fdc, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

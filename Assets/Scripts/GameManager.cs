@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI brainNumberText;
     [SerializeField] private GameObject pausedUI;
 
+    [Header("Debug only")]
+    [SerializeField] private int spawnOnly;
+
 
     private int coinNumber;
     private int brainNumber;
@@ -39,8 +42,17 @@ public class GameManager : MonoBehaviour
     private float spawnTimeCount;
 
     #region Properties
-    public float ScrollBackSpeed => scrollBackSpeed;
+    public float ScrollBackSpeed => scrollBackSpeed + Mathf.Min(brainNumber / 5, 15);
+    //public float ScrollBackSpeed
+    //{
+    //get
+    //{
+    //int d = Mathf.Max(brainNumber / 5, 15);
+    //return scrollBackSpeed + d;
+    //}
+    //}
     public int CoinNumber => coinNumber;
+    public int BrainNumber => brainNumber;
     public Vector3 SpawnerPosition => spawnerPosition.position;
     static public float ScreenHeight => 2f * Camera.main.orthographicSize;
     static public float ScreenWidth => ScreenHeight * Camera.main.aspect;
@@ -58,7 +70,7 @@ public class GameManager : MonoBehaviour
     }
 
     public ZombieManager Zombies => (ZombieManager)managers[0];
-    public CoinManager Coins => (CoinManager)managers[4];
+    public CoinManager Coins => (CoinManager)managers[5];
     #endregion Properties
 
 
@@ -84,7 +96,10 @@ public class GameManager : MonoBehaviour
         spawnTimeCount += Time.deltaTime;
         if (spawnTimeCount >= deltaSpawnTime && CanSpawn)
         {
-            managers[Random.Range(2, managers.Count)].CallSpawnItem();
+            if (spawnOnly == -1)
+                managers[Random.Range(2, managers.Count)].CallSpawnItem();
+            else
+                managers[spawnOnly].CallSpawnItem();
             spawnTimeCount = 0f;
         }
     }
