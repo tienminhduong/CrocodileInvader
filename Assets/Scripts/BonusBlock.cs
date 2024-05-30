@@ -25,9 +25,6 @@ public class BonusBlock : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Zombie"))
-        {
-            GameManager.Instance.Zombies.ChangeForm(1);
-            gameObject.SetActive(false);
-        }
+            GameManager.Instance.ActivateTransform();
     }
 }

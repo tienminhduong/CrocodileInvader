@@ -34,5 +34,7 @@ public class CoinContainer : PoolableObject
     protected override void Update()
     {
         base.Update();
+        if (ID == 2 && transform.position.x < -GameManager.ScreenWidth / 2f)
+            GameManager.Instance.DeactivateTranform();
     }
 }

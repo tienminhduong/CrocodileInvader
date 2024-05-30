@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -25,7 +26,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float scrollBackSpeed;
     [SerializeField] private float deltaSpawnTime;
 
+    [Header("Bonus block")]
     [SerializeField] private BonusBlock bonusBlock;
+    [SerializeField] private float bonusBlockMaxTime;
+    [SerializeField] private float bonusBlockCountTime;
+    [SerializeField] private float bonusBlockActiveMaxTime;
+    [SerializeField] private float bonusBlockActiveCountTime;
+    private bool isCountSpawnBlock = true;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI zombieNumberText;
@@ -42,17 +49,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int initialZombieNumber;
 
     private float spawnTimeCount;
+    [SerializeField] private int spawnCode = 0; // 0: Normal, 1: Bonus block, 2: Two column coin
 
     #region Properties
     public float ScrollBackSpeed => scrollBackSpeed + Mathf.Min(brainNumber / 5, 15);
-    //public float ScrollBackSpeed
-    //{
-    //get
-    //{
-    //int d = Mathf.Max(brainNumber / 5, 15);
-    //return scrollBackSpeed + d;
-    //}
-    //}
     public int CoinNumber => coinNumber;
     public int BrainNumber => brainNumber;
     public Vector3 SpawnerPosition => spawnerPosition.position;
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
     }
 
     public ZombieManager Zombies => (ZombieManager)managers[0];
-    public CoinManager Coins => (CoinManager)managers[5];
+    public CoinManager Coins => (CoinManager)managers[4];
     #endregion Properties
 
 
@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckBonusBlockUpdate();
         SpawnItem();
         UpdateText();
     }
@@ -98,10 +99,21 @@ public class GameManager : MonoBehaviour
         spawnTimeCount += Time.deltaTime;
         if (spawnTimeCount >= deltaSpawnTime && CanSpawn)
         {
-            if (spawnOnly == -1)
-                managers[Random.Range(2, managers.Count)].CallSpawnItem();
+            if (spawnCode == 0)
+            {
+                if (spawnOnly == -1)
+                    managers[Random.Range(2, managers.Count)].CallSpawnItem();
+                else
+                    managers[spawnOnly].CallSpawnItem();
+            }
             else
-                managers[spawnOnly].CallSpawnItem();
+            {
+                if (spawnCode == 1)
+                    SetActiveBonusBlock();
+                else
+                    Coins.GetItem(2);
+                spawnCode = 0;
+            }
             spawnTimeCount = 0f;
         }
     }
@@ -132,5 +144,64 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         pausedUI.SetActive(false);
+    }
+
+    private void CheckBonusBlockUpdate()
+    {
+        //if (bonusBlockActiveCountTime > 0f)
+        //{
+        //    bonusBlockActiveCountTime -= Time.deltaTime;
+        //    if (bonusBlockActiveCountTime <= 0f)
+        //    {
+        //        //call 2 column coins
+        //        Instance.Coins.GetItem(2);
+
+        //    }
+        //}
+        //if (isCountSpawnBlock)
+        //    bonusBlockCountTime += Time.deltaTime;
+        //if (bonusBlockCountTime >= bonusBlockMaxTime)
+        //{
+        //    RaycastHit2D hit = Physics2D.Raycast((Vector2)SpawnerPosition + Vector2.up * 10f, Vector2.down);
+        //    if (hit.collider && hit.collider.gameObject.CompareTag("Road"))
+        //    {
+        //        bonusBlockCountTime = 0f;
+        //        SetActiveBonusBlock();
+        //    }
+        //}
+        if (isCountSpawnBlock)
+            bonusBlockCountTime += Time.deltaTime;
+        if (bonusBlockCountTime >= bonusBlockMaxTime)
+        {
+            spawnCode = 1;
+            isCountSpawnBlock = false;
+            bonusBlockCountTime = 0f;
+        }
+        if (bonusBlockActiveCountTime > 0f)
+        {
+            bonusBlockActiveCountTime -= Time.deltaTime;
+            if (bonusBlockActiveCountTime <= 0f)
+                spawnCode = 2;
+        }
+    }
+
+    private void SetActiveBonusBlock()
+    {
+        bonusBlock.gameObject.SetActive(true);
+        bonusBlock.transform.position = new Vector3(SpawnerPosition.x, bonusBlock.transform.position.y, bonusBlock.transform.position.z);
+        isCountSpawnBlock = false;
+    }
+
+    public void ActivateTransform()
+    {
+        Instance.Zombies.ChangeForm(1);
+        bonusBlock.gameObject.SetActive(false);
+        bonusBlockActiveCountTime = bonusBlockActiveMaxTime;
+    }
+
+    public void DeactivateTranform()
+    {
+        Instance.Zombies.ChangeForm(0);
+        isCountSpawnBlock = true;
     }
 }

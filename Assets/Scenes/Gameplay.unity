@@ -375,7 +375,6 @@ MonoBehaviour:
   - {fileID: 1654273034}
   - {fileID: 331957479}
   - {fileID: 974462248}
-  - {fileID: 974462248}
   - {fileID: 708275360}
   - {fileID: 714839948}
   spawnerPosition: {fileID: 1638958729}
@@ -383,6 +382,11 @@ MonoBehaviour:
   detector2: {fileID: 1798255046}
   scrollBackSpeed: 5
   deltaSpawnTime: 3
+  bonusBlock: {fileID: 1988755899}
+  bonusBlockMaxTime: 10
+  bonusBlockCountTime: 0
+  bonusBlockActiveMaxTime: 15
+  bonusBlockActiveCountTime: 0
   zombieNumberText: {fileID: 793137353}
   coinNumberText: {fileID: 90383089}
   brainNumberText: {fileID: 722803613}
@@ -2679,7 +2683,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1988755894
 Animator:
   serializedVersion: 5
@@ -2762,7 +2766,7 @@ Transform:
   m_GameObject: {fileID: 1988755893}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 12.32, y: 1.23, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2852,6 +2856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59f1b14935b0c14cbe7b58f7f9764f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boxCollider: {fileID: 1988755897}
 --- !u!1 &2095083487
 GameObject:
   m_ObjectHideFlags: 0
