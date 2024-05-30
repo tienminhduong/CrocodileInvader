@@ -119,7 +119,10 @@ public class GameManager : MonoBehaviour
     private void CheckGameOver()
     {
         if (Zombies.Count == 0 && BrainNumber > 0)
+        {
             isGameOver = true;
+            GameplayMusicManager.Instance.StopBGMandZombie();
+        }
 
         if (isGameOver)
         {
