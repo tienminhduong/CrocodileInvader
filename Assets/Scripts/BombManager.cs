@@ -21,7 +21,7 @@ public class BombManager : Manager
 
     public override void CallSpawnItem()
     {
-        if (GameManager.Instance.BrainNumber >= 15 && Random.Range(0, 100) < multipleBombRate)
+        if (GameManager.Instance.BrainNumber >= 10 && Random.Range(0, 100) < multipleBombRate)
             SpawnMultipleBomb();
         else if (GameManager.Instance.Zombies.Count >= 4 && GameManager.Instance.ScrollBackSpeed >= 10
             && Random.Range(0, 100) < continuousBombRate)

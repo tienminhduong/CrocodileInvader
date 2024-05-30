@@ -166,6 +166,14 @@ public class ZombieManager : Manager
 
     public void ChangeForm(int id)
     {
-
+        for (int i = 0; i < Count; ++i)
+        {
+            Zombie temp = zombieList[i];
+            zombieList[i] = (Zombie)GetItem(id);
+            zombieList[i].transform.position = temp.transform.position;
+            zombieList[i].SetLayer(temp.Layer);
+            ReturnItem(temp);
+        }
+        currentZombieID = id;
     }
 }

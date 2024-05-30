@@ -50,6 +50,8 @@ public class Zombie : PoolableObject
     }
 
     private const int ZombieLayer0 = 5;
+    private int currentLayer;
+    public int Layer => currentLayer;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -88,6 +90,7 @@ public class Zombie : PoolableObject
 
     public void SetLayer(int layer)
     {
+        currentLayer = layer;
         foreach (SpriteRenderer renderer in renderers)
             renderer.sortingLayerName = "Layer" + layer.ToString();
 

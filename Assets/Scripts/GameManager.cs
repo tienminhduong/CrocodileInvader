@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float scrollBackSpeed;
     [SerializeField] private float deltaSpawnTime;
 
+    [SerializeField] private BonusBlock bonusBlock;
+
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI zombieNumberText;
     [SerializeField] private TextMeshProUGUI coinNumberText;
