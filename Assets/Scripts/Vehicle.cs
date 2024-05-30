@@ -38,6 +38,7 @@ public class Vehicle : PoolableObject
         {
             RemoveSelf();
             GameManager.Instance.GenerateZombies(numberHumansContains);
+            GameplayMusicManager.Instance.PlayCarExplodeSound();
         }
         text.text = CollisionCount.ToString();
     }
@@ -54,6 +55,7 @@ public class Vehicle : PoolableObject
                 GameManager.Instance.Coins.TranformIntoCoin(this, false, ID);
                 RemoveSelf();
                 GameManager.Instance.GenerateZombies(numberHumansContains);
+                GameplayMusicManager.Instance.PlayGoldenizeSound();
             }
         }
     }

@@ -33,6 +33,7 @@ public class Coin : MonoBehaviour
         {
             gameObject.SetActive(false);
             GameManager.Instance.IncCoin();
+            GameplayMusicManager.Instance.PlayCoinSound();
         }
     }
 }

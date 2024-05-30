@@ -49,6 +49,7 @@ public class Human : PoolableObject
         {
             RemoveSelf();
             GameManager.Instance.GenerateZombies();
+            GameplayMusicManager.Instance.PlayHumanIntoZombieSound();
         }
     }
 }

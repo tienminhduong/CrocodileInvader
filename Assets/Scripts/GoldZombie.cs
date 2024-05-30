@@ -10,7 +10,7 @@ public class GoldZombie : Zombie
     protected override void Start()
     {
         base.Start();
-        SetJumpHeight(1.2f);
+        SetJumpHeight(0.9f);
     }
 
     // Update is called once per frame

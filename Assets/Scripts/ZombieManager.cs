@@ -103,8 +103,11 @@ public class ZombieManager : Manager
             if (touch.phase == TouchPhase.Began)
             {
                 if (FirstZombie && FirstZombie.JumpStatus == 0)
+                {
                     foreach (Zombie zombie in zombieList)
                         zombie.CallTriggerJump(GetDelayedTime(zombie));
+                    GameplayMusicManager.Instance.PlayJumpSound();
+                }
             }
             if (touch.phase == TouchPhase.Ended && FirstZombie)
                 foreach (Zombie zombie in zombieList)

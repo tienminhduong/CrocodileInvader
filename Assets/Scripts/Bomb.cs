@@ -27,7 +27,14 @@ public class Bomb : PoolableObject
         {
             RemoveSelf();
             if (GameManager.Instance.Zombies.CurrentFormID == 1)
+            {
                 GameManager.Instance.Coins.TranformIntoCoin(this, true, 0);
+                GameplayMusicManager.Instance.PlayGoldenizeSound();
+            }
+            else
+            {
+                GameplayMusicManager.Instance.PlayBoomSound();
+            }
         }
         else if (!collision.gameObject.CompareTag("Road"))
             RemoveSelf();

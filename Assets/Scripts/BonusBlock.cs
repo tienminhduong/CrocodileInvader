@@ -46,6 +46,7 @@ public class BonusBlock : MonoBehaviour
             GoldPopUp.SetActive(true);
             topCover.SetActive(true);
             bottomCover.SetActive(true);
+            GameplayMusicManager.Instance.PlayTransformSound();
             Time.timeScale = 0f;
             countdownPopUp = 2f;
         }
