@@ -83,7 +83,11 @@ public class RoadManager : Manager
                 nextHeight = standardHeight[1];
             else nextHeight = standardHeight[0];
 
-            nextRoadID = Random.Range(1, standardWidth.Count);
+            int rand = Random.Range(0, 100);
+            if (rand < 10)
+                nextRoadID = standardWidth.Count - 1;
+            else
+                nextRoadID = Random.Range(1, standardWidth.Count - 1);
         }
         else
         {
