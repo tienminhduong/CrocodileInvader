@@ -106,24 +106,9 @@ public class ZombieManager : Manager
                     foreach (Zombie zombie in zombieList)
                         zombie.CallTriggerJump(GetDelayedTime(zombie));
             }
-        }
-        if (FirstZombie)
-        {
-            bool condition = false;
-            if (Input.touchCount == 0)
-                condition = true;
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Ended)
-                    condition = true;
-            }
-            if (condition)
-            {
+            if (touch.phase == TouchPhase.Ended && FirstZombie)
                 foreach (Zombie zombie in zombieList)
-                    if (zombie.IsTouchingScreen)
-                        zombie.CallTriggerFall(GetDelayedTime(zombie));
-            }
+                    zombie.CallTriggerFall(GetDelayedTime(zombie));
         }
     }
 
