@@ -21,16 +21,15 @@ public class GameplayMusicManager : MonoBehaviour
     [SerializeField] private AudioSource BGM;
     [SerializeField] private AudioSource zombiesSound;
     [SerializeField] private AudioSource soundEffect;
+    [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private AudioSource coinSound;
     [Header("Effect")]
-    [SerializeField] private AudioClip collectCoin;
     [SerializeField] private AudioClip boom;
     [SerializeField] private AudioClip humanIntoZombie;
-    [SerializeField] private AudioClip jump;
     [SerializeField] private AudioClip henshin;
     [SerializeField] private AudioClip carExplode;
     [SerializeField] private AudioClip goldenize;
 
-    //private Queue<AudioSource> coinSounds = new Queue<AudioSource>();
 
     // Start is called before the first frame update
     void Start()
@@ -43,11 +42,15 @@ public class GameplayMusicManager : MonoBehaviour
     {
         
     }
+    public void StopBGMandZombie()
+    {
+        BGM.Stop();
+        zombiesSound.Stop();
+    }
 
     public void PlayCoinSound()
     {
-        soundEffect.clip = collectCoin;
-        soundEffect.Play();
+        coinSound.Play();
     }
     public void PlayBoomSound()
     {
@@ -61,8 +64,7 @@ public class GameplayMusicManager : MonoBehaviour
     }
     public void PlayJumpSound()
     {
-        soundEffect.clip = jump;
-        soundEffect.Play();
+        jumpSound.Play();
     }
     public void PlayTransformSound()
     {
