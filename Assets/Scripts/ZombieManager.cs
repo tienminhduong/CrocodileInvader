@@ -89,7 +89,7 @@ public class ZombieManager : Manager
 
     private float GetDelayedTime(Zombie zombie)
     {
-        float delayModifier = 0.75f;
+        float delayModifier = 1f;
         if (Count >= 10)
             delayModifier = 1f;
         return (FirstZombie.transform.position.x - zombie.transform.position.x) / GameManager.Instance.ScrollBackSpeed * delayModifier + 0.001f;

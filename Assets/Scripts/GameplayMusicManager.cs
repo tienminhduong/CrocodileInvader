@@ -22,7 +22,6 @@ public class GameplayMusicManager : MonoBehaviour
     [SerializeField] private AudioSource zombiesSound;
     [SerializeField] private AudioSource soundEffect;
     [SerializeField] private AudioSource jumpSound;
-    [SerializeField] private AudioSource coinSound;
     [Header("Effect")]
     [SerializeField] private AudioClip boom;
     [SerializeField] private AudioClip humanIntoZombie;
@@ -48,10 +47,6 @@ public class GameplayMusicManager : MonoBehaviour
         zombiesSound.Stop();
     }
 
-    public void PlayCoinSound()
-    {
-        coinSound.Play();
-    }
     public void PlayBoomSound()
     {
         soundEffect.clip = boom;

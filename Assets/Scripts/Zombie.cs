@@ -78,6 +78,10 @@ public class Zombie : PoolableObject
         tForward = 0f;
         groundHeight = float.MaxValue;
         collisions.Clear();
+
+        foreach (SpriteRenderer spriteRenderer in renderers)
+            spriteRenderer.color = Color.white;
+        boxCollider.isTrigger = false;
     }
 
     // Update is called once per frame
@@ -189,7 +193,12 @@ public class Zombie : PoolableObject
     protected virtual void OnCollisionEnterObjectBehavior(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Bomb"))
-            RemoveSelf();
+        {
+            foreach (SpriteRenderer renderer in renderers)
+                renderer.color = Color.black;
+            boxCollider.isTrigger = true;
+            rigidBody.transform.position += Vector3.up * GameManager.ScreenHeight / 8f;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)

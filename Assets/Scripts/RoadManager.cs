@@ -88,7 +88,7 @@ public class RoadManager : Manager
             else nextHeight = standardHeight[0];
 
             int rand = Random.Range(0, 100);
-            if (rand < 10 && GameManager.Instance.BrainNumber >= 15)
+            if (rand == 0 && GameManager.Instance.BrainNumber >= 15)
                 nextRoadID = standardWidth.Count - 1;
             else
                 nextRoadID = Random.Range(1, standardWidth.Count - 1);
