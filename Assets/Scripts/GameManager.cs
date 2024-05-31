@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverScore;
 
     #region Properties
-    public float ScrollBackSpeed => scrollBackSpeed + Mathf.Min(brainNumber / 5, 15);
+    public float ScrollBackSpeed => scrollBackSpeed + Mathf.Min((brainNumber - initialZombieNumber) / 2.5f, 15);
     public int CoinNumber => coinNumber;
     public int BrainNumber => brainNumber;
     public Vector3 SpawnerPosition => spawnerPosition.position;
@@ -119,20 +119,17 @@ public class GameManager : MonoBehaviour
     private void CheckGameOver()
     {
         if (Zombies.Count == 0 && BrainNumber > 0)
-        {
             isGameOver = true;
-            GameplayMusicManager.Instance.StopBGMandZombie();
-        }
 
         if (isGameOver)
         {
             countDownOver -= Time.deltaTime;
             if (countDownOver <= 0f)
             {
-                //Show lose panel
-                Time.timeScale = 0f;
+                GameplayMusicManager.Instance.StopBGMandZombie();
                 gameOverPanel.SetActive(true);
                 gameOverScore.text = brainNumber.ToString();
+                Time.timeScale = 0f;
             }
         }
     }
