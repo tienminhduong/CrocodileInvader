@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +17,11 @@ public class Coin : MonoBehaviour
     {
         if (GameManager.Instance.Zombies.CurrentFormID == 1)
             MoveToZombie();
+    }
+
+    private void OnEnable()
+    {
+        spriteRenderer.enabled = true;
     }
 
     private void MoveToZombie()
@@ -29,11 +36,13 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Zombie"))
+        if (spriteRenderer.enabled && collision.gameObject.CompareTag("Zombie"))
         {
-            gameObject.SetActive(false);
+            if (audioSource)
+                audioSource.Play();
+            spriteRenderer.enabled = false;
             GameManager.Instance.IncCoin();
-            GameplayMusicManager.Instance.PlayCoinSound();
+            
         }
     }
 }

@@ -380,7 +380,7 @@ MonoBehaviour:
   spawnerPosition: {fileID: 1638958729}
   detector1: {fileID: 1042774053}
   detector2: {fileID: 1798255046}
-  scrollBackSpeed: 5
+  scrollBackSpeed: 7
   deltaSpawnTime: 3
   bonusBlock: {fileID: 1988755899}
   bonusBlockMaxTime: 60
