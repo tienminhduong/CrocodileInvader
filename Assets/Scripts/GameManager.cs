@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI coinNumberText;
     [SerializeField] private TextMeshProUGUI brainNumberText;
     [SerializeField] private GameObject pausedUI;
+    [SerializeField] private GameObject highRecord;
 
     [Header("Debug only")]
     [SerializeField] private int spawnOnly;
@@ -129,6 +130,16 @@ public class GameManager : MonoBehaviour
                 GameplayMusicManager.Instance.StopBGMandZombie();
                 gameOverPanel.SetActive(true);
                 gameOverScore.text = brainNumber.ToString();
+
+                int hs = 0;
+                if (PlayerPrefs.HasKey("HighScore"))
+                    hs = PlayerPrefs.GetInt("HighScore");
+                if (brainNumber > hs)
+                {
+                    highRecord.SetActive(true);
+                    PlayerPrefs.SetInt("HighScore", brainNumber);
+                }
+
                 Time.timeScale = 0f;
             }
         }
