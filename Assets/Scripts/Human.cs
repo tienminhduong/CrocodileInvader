@@ -22,6 +22,9 @@ public class Human : PoolableObject
     {
         base.Update();
         JumpingAnimation();
+
+        //if (transform.position.x - GameManager.Instance.Zombies.transform.position.x <= GameManager.ScreenWidth * 0.15f)
+        //    GameManager.Instance.Zombies.FirstZombie.PlayAttackAnimation();
     }
 
     private void JumpingAnimation()
@@ -29,7 +32,6 @@ public class Human : PoolableObject
         countTime += Time.deltaTime;
         if (countTime >= deltaJumpTime)
         {
-            //transform.position += Vector3.up * GameManager.ScreenHeight / 25f;
             rigidBody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             countTime -= deltaJumpTime;
         }
@@ -47,6 +49,7 @@ public class Human : PoolableObject
     {
         if (collision.gameObject.CompareTag("Zombie"))
         {
+            GameManager.Instance.Zombies.FirstZombie.PlayAttackAnimation();
             RemoveSelf();
             GameManager.Instance.GenerateZombies();
             GameplayMusicManager.Instance.PlayHumanIntoZombieSound();

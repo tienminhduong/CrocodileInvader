@@ -12,6 +12,8 @@ public class Vehicle : PoolableObject
 
     [SerializeField] private TextMeshProUGUI text;
 
+    private bool turnedGold = false;
+
     public int numberCollision;
     public override void Init()
     {
@@ -41,6 +43,21 @@ public class Vehicle : PoolableObject
             GameplayMusicManager.Instance.PlayCarExplodeSound();
         }
         text.text = CollisionCount.ToString();
+
+        if (!turnedGold && GameManager.Instance.Zombies.FirstZombie &&
+            (transform.position - GameManager.Instance.Zombies.FirstZombie.transform.position).magnitude
+            <= GameManager.ScreenWidth * 0.2f &&
+            GameManager.Instance.Zombies.CurrentFormID == Zombie.SPELLCASTERID)
+            TurnIntoGold();
+    }
+
+    private void TurnIntoGold()
+    {
+        GameManager.Instance.Coins.TranformIntoCoin(this, false, ID);
+        GameManager.Instance.Zombies.FirstZombie.PlayAttackAnimation();
+        GameplayMusicManager.Instance.PlayGoldenizeSound();
+        RemoveSelf();
+        turnedGold = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -48,7 +65,9 @@ public class Vehicle : PoolableObject
         if (collision.gameObject.CompareTag("Zombie"))
         {
             if (GameManager.Instance.Zombies.CurrentFormID == 0)
+            {
                 collisions.Add(collision);
+            }
             else if (GameManager.Instance.Zombies.CurrentFormID == 1)
             {
                 //Call coin manager generate coin

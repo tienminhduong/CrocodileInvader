@@ -48,7 +48,7 @@ public class ZombieManager : Manager
         firstZombie = null;
         float maxX = -GameManager.ScreenWidth;
         foreach (Zombie zombie in zombieList)
-            if (zombie.JumpStatus != -1 && zombie.transform.position.x > maxX)
+            if (zombie.transform.position.x > maxX && zombie.JumpStatus != -2)
             { firstZombie = zombie; maxX = zombie.transform.position.x; }
     }
 
@@ -56,6 +56,7 @@ public class ZombieManager : Manager
     {
         for (int i = 0; i < zombieList.Count; i++)
             if (!zombieList[i].isActiveAndEnabled) { zombieList.RemoveAt(i); i--; }
+
     }
 
     public void AddZombie()
@@ -106,6 +107,7 @@ public class ZombieManager : Manager
                 {
                     foreach (Zombie zombie in zombieList)
                         zombie.CallTriggerJump(GetDelayedTime(zombie));
+
                     GameplayMusicManager.Instance.PlayJumpSound();
                 }
             }
@@ -158,7 +160,7 @@ public class ZombieManager : Manager
         {
             Zombie temp = zombieList[i];
             zombieList[i] = (Zombie)GetItem(id);
-            zombieList[i].transform.position = temp.transform.position;
+            zombieList[i].transform.position = temp.transform.position + Vector3.up * 0.1f;
             zombieList[i].SetLayer(temp.Layer);
             ReturnItem(temp);
         }
