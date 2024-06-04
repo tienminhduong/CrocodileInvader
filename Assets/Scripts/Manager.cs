@@ -6,7 +6,7 @@ public class Manager : MonoBehaviour
 {
     [SerializeField] private int numberRepool;
 
-    [SerializeField] List<PoolableObject> objectPrefabs = new List<PoolableObject>();
+    [SerializeField] protected List<PoolableObject> objectPrefabs = new List<PoolableObject>();
     private Dictionary<int, Queue<PoolableObject>> pooling;
 
     public int PrefabsCount => objectPrefabs.Count;

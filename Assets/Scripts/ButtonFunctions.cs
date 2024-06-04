@@ -17,12 +17,17 @@ public class ButtonFunctions : MonoBehaviour
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(0);
     }
-
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
     private void Start()
     {
         int hs = 0;
         if (PlayerPrefs.HasKey("HighScore"))
             hs = PlayerPrefs.GetInt("HighScore");
+        Time.timeScale = 1.0f;
         highScoreText.text = hs.ToString();
     }
+    
 }

@@ -22,6 +22,7 @@ public class GameplayMusicManager : MonoBehaviour
     [SerializeField] private AudioSource zombiesSound;
     [SerializeField] private AudioSource soundEffect;
     [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private AudioSource rockCollide;
     [Header("Effect")]
     [SerializeField] private AudioClip boom;
     [SerializeField] private AudioClip humanIntoZombie;
@@ -47,6 +48,17 @@ public class GameplayMusicManager : MonoBehaviour
         zombiesSound.Stop();
     }
 
+    public void PlayBGMandZombie()
+    {
+        BGM.Play();
+        zombiesSound.Play();
+    }
+    public void PauseBGMandZombie()
+    {
+        BGM.Pause();
+        zombiesSound.Pause();
+    }
+
     public void PlayBoomSound()
     {
         soundEffect.clip = boom;
@@ -63,8 +75,9 @@ public class GameplayMusicManager : MonoBehaviour
     }
     public void PlayTransformSound()
     {
+        rockCollide.Play();
         soundEffect.clip = henshin;
-        soundEffect.Play();
+        soundEffect.PlayDelayed(1f);
     }
     public void PlayCarExplodeSound()
     {

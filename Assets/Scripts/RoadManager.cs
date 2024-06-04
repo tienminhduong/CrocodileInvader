@@ -74,7 +74,7 @@ public class RoadManager : Manager
         if (rd < 50)
         {
             // Spawn normally
-            nextRoadID = Random.Range(0, standardWidth.Count);
+            nextRoadID = Random.Range(0, standardWidth.Count - 1);
             if (nextRoadID == 0 && r.Width == standardWidth[0])
                 nextHeight = currentHeight;
         }

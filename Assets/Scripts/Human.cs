@@ -11,6 +11,7 @@ public class Human : PoolableObject
     [SerializeField] private float jumpForce;
 
     private float countTime;
+    private bool collided;
     const float deltaJumpTime = 1f;
 
     public override float Height => boxCollider.size.y;
@@ -18,13 +19,16 @@ public class Human : PoolableObject
 
     const int HumanLayer0 = 11;
 
+    public override void Init()
+    {
+        base.Init();
+        collided = false;
+    }
+
     protected override void Update()
     {
         base.Update();
         JumpingAnimation();
-
-        //if (transform.position.x - GameManager.Instance.Zombies.transform.position.x <= GameManager.ScreenWidth * 0.15f)
-        //    GameManager.Instance.Zombies.FirstZombie.PlayAttackAnimation();
     }
 
     private void JumpingAnimation()
@@ -47,12 +51,14 @@ public class Human : PoolableObject
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collided)
+            return;
         if (collision.gameObject.CompareTag("Zombie"))
         {
+            collided = true;
             GameManager.Instance.Zombies.FirstZombie.PlayAttackAnimation();
             RemoveSelf();
-            GameManager.Instance.GenerateZombies();
-            GameplayMusicManager.Instance.PlayHumanIntoZombieSound();
+            GameManager.Instance.GenerateZombies(1, true);
         }
     }
 }

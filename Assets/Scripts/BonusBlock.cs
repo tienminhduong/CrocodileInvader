@@ -5,8 +5,8 @@ using UnityEngine;
 public class BonusBlock : MonoBehaviour
 {
     [SerializeField] private BoxCollider2D boxCollider;
-    [SerializeField] private GameObject GoldPopUp;
-
+    [SerializeField] private GameObject magicalSign;
+    [SerializeField] private GameObject transformEffect;
     [SerializeField] private GameObject topCover, bottomCover;
 
     private float countdownPopUp;
@@ -27,9 +27,7 @@ public class BonusBlock : MonoBehaviour
             if (countdownPopUp <= 0)
             {
                 Time.timeScale = 1f;
-                GoldPopUp.SetActive(false);
-                topCover.SetActive(false);
-                bottomCover.SetActive(false);
+                SetActiveEffect(false);
                 GameManager.Instance.ActivateTransform();
             }
         }
@@ -39,16 +37,27 @@ public class BonusBlock : MonoBehaviour
             GameManager.Instance.SetDeactivateBonusBlock();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void SetActiveEffect(bool value)
+    {
+        topCover.SetActive(value);
+        bottomCover.SetActive(value);
+        magicalSign.SetActive(value);
+        transformEffect.SetActive(value);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Zombie"))
         {
-            GoldPopUp.SetActive(true);
-            topCover.SetActive(true);
-            bottomCover.SetActive(true);
+            SetActiveEffect(true);
             GameplayMusicManager.Instance.PlayTransformSound();
             Time.timeScale = 0f;
             countdownPopUp = 2f;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
     }
 }
