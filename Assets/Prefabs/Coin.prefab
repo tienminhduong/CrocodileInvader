@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: -226449627
   m_SortingLayer: 5
   m_SortingOrder: 5
-  m_Sprite: {fileID: -891915853, guid: a9c8ca3b2994ac9469bcfaaced2eaec9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f517aa0bebb735d459d3626ba8b429bc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -152,7 +152,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.67, y: 0.68}
+    oldSize: {x: 0.79, y: 1.05}
     newSize: {x: 0.67, y: 0.68}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -169,7 +169,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7084256970305776351}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 241d8cabedfc9cd4fa9c39521da9f268, type: 2}
   m_CullingMode: 0
@@ -208,7 +208,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4f9d12f731b1b5843881d716dcf6d5e3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0

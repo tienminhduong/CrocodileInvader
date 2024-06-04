@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.iOS;
 
 public class Zombie : PoolableObject
 {
@@ -17,10 +18,11 @@ public class Zombie : PoolableObject
     [SerializeField] private float groundHeight;
     [Header("Jump stats")]
     /// <summary>
-    /// -1: Falling, 0: On ground, 1: Jumping, 2: Floating
+    /// -1: Falling, 0: On ground, 1: Jumping, 2: Floating, -2: Logged out
     /// </summary>
     [SerializeField] private int jumpStatus;
     [SerializeField] private float jumpSpeed;
+    [SerializeField] private float jumpHeightModifier;
 
     private float jumpAcceleration;
     private float maxJumpAcceleration;
@@ -33,6 +35,10 @@ public class Zombie : PoolableObject
 
     [SerializeField] private float floatingGravityScale;
     [SerializeField] private float fallingGravityScale;
+
+    [SerializeField] private Animator animator;
+
+    public static int SPELLCASTERID => 1;
 
 
     public override float Width => boxCollider.size.x;
@@ -51,15 +57,23 @@ public class Zombie : PoolableObject
     private const int ZombieLayer0 = 5;
     private int currentLayer;
     public int Layer => currentLayer;
+    public bool IsOutGround
+    {
+        get
+        {
+            LayerMask mask = LayerMask.GetMask("Road1");
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f, mask);
+            if (hit)
+                Debug.Log(hit.collider.gameObject.tag);
+            return (!hit);
+        }
+    }
 
     // Start is called before the first frame update
     protected override void Start()
     {
         Init();
-
-        //maxJumpHeight = boxCollider.size.y * 2f;
-        //maxJumpAcceleration = -jumpSpeed * jumpSpeed / (2 * maxJumpHeight);
-        SetJumpHeight(1f);
+        SetJumpHeight(jumpHeightModifier);
     }
 
     protected void SetJumpHeight(float modifier)
@@ -80,7 +94,11 @@ public class Zombie : PoolableObject
         collisions.Clear();
 
         foreach (SpriteRenderer spriteRenderer in renderers)
+        {
             spriteRenderer.color = Color.white;
+            spriteRenderer.transform.position = new Vector3(spriteRenderer.transform.position.x,
+                spriteRenderer.transform.position.y, -2.62f);
+        }
         boxCollider.isTrigger = false;
     }
 
@@ -89,6 +107,12 @@ public class Zombie : PoolableObject
     {
         base.Update();
         UpdateJumpFall();
+    }
+
+    public void PlayAttackAnimation()
+    {
+        if (!animator) return;
+        animator.SetTrigger("attack");
     }
 
     public void SetLayer(int layer)
@@ -100,8 +124,8 @@ public class Zombie : PoolableObject
         gameObject.layer = layer + ZombieLayer0;
     }
 
-    public void CallTriggerJump(float time) { waitForJump = waitForJump > 0 ? waitForJump : time; }
-    public void CallTriggerFall(float time) { waitForFall = waitForFall > 0 ? waitForFall : time; }
+    public void CallTriggerJump(float time) { waitForJump = (waitForJump > 0 ? waitForJump : time); }
+    public void CallTriggerFall(float time) { waitForFall = (waitForFall > 0 ? waitForFall : time); }
     private void CheckJump()
     {
         if (waitForJump > 0)
@@ -111,6 +135,7 @@ public class Zombie : PoolableObject
             {
                 isTouchingScreen = true;
                 jumpStatus = 1;
+                animator.SetBool("isMoving", false);
                 jumpAcceleration = maxJumpAcceleration;
 
                 dForward = GameManager.ScreenWidth / 20f;
@@ -175,10 +200,13 @@ public class Zombie : PoolableObject
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Road") && transform.position.y > collision.gameObject.transform.position.y)
+        float lowestPoint = Height / 2f - boxCollider.offset.y;
+        if (collision.gameObject.CompareTag("Road") && transform.position.y - lowestPoint >= collision.gameObject.transform.position.y)
         {
             jumpStatus = 0;
+            animator.SetBool("isMoving", true);
             groundHeight = collision.transform.position.y;
+            //waitForFall = waitForJump = 0f;
             isTouchingScreen = false;
         }
         else if (collision.gameObject.CompareTag("Object"))
@@ -197,14 +225,15 @@ public class Zombie : PoolableObject
             foreach (SpriteRenderer renderer in renderers)
                 renderer.color = Color.black;
             boxCollider.isTrigger = true;
-            rigidBody.transform.position += Vector3.up * GameManager.ScreenHeight / 8f;
+            jumpStatus = -2;
+            transform.position += Vector3.up * GameManager.ScreenHeight / 8f;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Road") && rigidBody.velocity.y < 0)
-            jumpStatus = -1;
+        //if (collision.gameObject.CompareTag("Road") && /*rigidBody.velocity.y < 0*/jumpStatus != 1)
+            //jumpStatus = -2;
         if (collision.gameObject.CompareTag("Object") && collisions.Contains(collision))
             collisions.Remove(collision);
     }

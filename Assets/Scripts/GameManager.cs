@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float scrollBackSpeed;
     [SerializeField] private float deltaSpawnTime;
+    [SerializeField] private GameObject explosion;
 
     [Header("Bonus block")]
     [SerializeField] private BonusBlock bonusBlock;
@@ -93,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     public ZombieManager Zombies => (ZombieManager)managers[0];
     public CoinManager Coins => (CoinManager)managers[4];
+    public HumanManager Humans => (HumanManager)managers[2];
     #endregion Properties
 
 
@@ -176,10 +178,10 @@ public class GameManager : MonoBehaviour
         brainNumberText.text = brainNumber.ToString();
     }
 
-    public void GenerateZombies(int number = 1)
+    public void GenerateZombies(int number = 1, bool isEating = false)
     {
         for (int i = 0; i < number; i++)
-            Zombies.AddZombie();
+            Zombies.AddZombie(isEating);
         brainNumber += number;
     }
 
@@ -189,12 +191,14 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         pausedUI.SetActive(true);
+        GameplayMusicManager.Instance.PauseBGMandZombie();
     }
 
     public void ContinueGame()
     {
         Time.timeScale = 1f;
         pausedUI.SetActive(false);
+        GameplayMusicManager.Instance.PlayBGMandZombie();
     }
 
     private void CheckBonusBlockUpdate()
@@ -238,5 +242,15 @@ public class GameManager : MonoBehaviour
     {
         Instance.Zombies.ChangeForm(0);
         isCountSpawnBlock = true;
+    }
+
+    public void CallExplosion(bool isBomb, Vector3 position = default)
+    {
+        if (isBomb)
+            explosion.transform.position = new Vector3(position.x, position.y + 1f, explosion.transform.position.z);
+        else
+            explosion.transform.position = new Vector3(Zombies.FirstZombie.transform.position.x + 3f,
+                Zombies.FirstZombie.transform.position.y, explosion.transform.position.z);
+        explosion.gameObject.SetActive(true);
     }
 }

@@ -48,7 +48,7 @@ public class ZombieManager : Manager
         firstZombie = null;
         float maxX = -GameManager.ScreenWidth;
         foreach (Zombie zombie in zombieList)
-            if (zombie.JumpStatus != -1 && zombie.transform.position.x > maxX)
+            if (zombie.transform.position.x > maxX && !zombie.IsOutGround)
             { firstZombie = zombie; maxX = zombie.transform.position.x; }
     }
 
@@ -56,12 +56,17 @@ public class ZombieManager : Manager
     {
         for (int i = 0; i < zombieList.Count; i++)
             if (!zombieList[i].isActiveAndEnabled) { zombieList.RemoveAt(i); i--; }
+
     }
 
-    public void AddZombie()
+    public void AddZombie(bool isEating = false)
     {
         Zombie z = (Zombie)GetItem(currentZombieID);
         z.SetLayer(layerCount);
+
+        if (isEating && GameManager.Instance.Zombies.FirstZombie)
+            z.transform.position = GameManager.Instance.Zombies.FirstZombie.transform.position
+                + new Vector3(-1f, 1f, 0f);
 
         if (layerCount == 1)
             layerCount = 3;
@@ -71,6 +76,7 @@ public class ZombieManager : Manager
             layerCount = 1;
 
         zombieList.Add(z);
+        GameplayMusicManager.Instance.PlayHumanIntoZombieSound();
     }
 
     private bool AreAllOnGround()
@@ -89,10 +95,11 @@ public class ZombieManager : Manager
 
     private float GetDelayedTime(Zombie zombie)
     {
-        float delayModifier = 1f;
+        float delayModifier = 0.8f;
         if (CurrentFormID == 1)
             delayModifier = 0.5f;
-        return (FirstZombie.transform.position.x - zombie.transform.position.x) / GameManager.Instance.ScrollBackSpeed * delayModifier + 0.001f;
+        float distance = Mathf.Max(FirstZombie.transform.position.x - zombie.transform.position.x, 0f);
+        return distance / GameManager.Instance.ScrollBackSpeed * delayModifier + 0.001f;
     }
 
     private void ZombiesJumping()
@@ -106,6 +113,7 @@ public class ZombieManager : Manager
                 {
                     foreach (Zombie zombie in zombieList)
                         zombie.CallTriggerJump(GetDelayedTime(zombie));
+
                     GameplayMusicManager.Instance.PlayJumpSound();
                 }
             }
@@ -158,7 +166,7 @@ public class ZombieManager : Manager
         {
             Zombie temp = zombieList[i];
             zombieList[i] = (Zombie)GetItem(id);
-            zombieList[i].transform.position = temp.transform.position;
+            zombieList[i].transform.position = temp.transform.position + Vector3.up * 0.1f;
             zombieList[i].SetLayer(temp.Layer);
             ReturnItem(temp);
         }

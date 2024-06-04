@@ -11,12 +11,19 @@ public class Human : PoolableObject
     [SerializeField] private float jumpForce;
 
     private float countTime;
+    private bool collided;
     const float deltaJumpTime = 1f;
 
     public override float Height => boxCollider.size.y;
     public override float Width => boxCollider.size.x;
 
     const int HumanLayer0 = 11;
+
+    public override void Init()
+    {
+        base.Init();
+        collided = false;
+    }
 
     protected override void Update()
     {
@@ -29,7 +36,6 @@ public class Human : PoolableObject
         countTime += Time.deltaTime;
         if (countTime >= deltaJumpTime)
         {
-            //transform.position += Vector3.up * GameManager.ScreenHeight / 25f;
             rigidBody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             countTime -= deltaJumpTime;
         }
@@ -45,11 +51,14 @@ public class Human : PoolableObject
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collided)
+            return;
         if (collision.gameObject.CompareTag("Zombie"))
         {
+            collided = true;
+            GameManager.Instance.Zombies.FirstZombie.PlayAttackAnimation();
             RemoveSelf();
-            GameManager.Instance.GenerateZombies();
-            GameplayMusicManager.Instance.PlayHumanIntoZombieSound();
+            GameManager.Instance.GenerateZombies(1, true);
         }
     }
 }
