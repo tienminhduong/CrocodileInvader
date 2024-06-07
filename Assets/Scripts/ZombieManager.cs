@@ -112,7 +112,8 @@ public class ZombieManager : Manager
                 if (FirstZombie && FirstZombie.JumpStatus == 0)
                 {
                     foreach (Zombie zombie in zombieList)
-                        zombie.CallTriggerJump(GetDelayedTime(zombie));
+                        if (!zombie.IsOutGround)
+                            zombie.CallTriggerJump(GetDelayedTime(zombie));
 
                     GameplayMusicManager.Instance.PlayJumpSound();
                 }
