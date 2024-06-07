@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseZombie : Zombie
+public class BaseCrocodile : Crocodile
 {
     // Start is called before the first frame update
     protected override void Start()

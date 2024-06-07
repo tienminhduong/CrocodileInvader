@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ZombieManager : Manager
+public class CrocodileManager : Manager
 {
     public override PoolableObject GetItem(int id = 0)
     {
-        Zombie z = (Zombie)base.GetItem(id);
+        Crocodile z = (Crocodile)base.GetItem(id);
         z.transform.position = transform.position;
 
         return z;
     }
 
-    [SerializeField] private List<Zombie> zombieList = new List<Zombie>();
+    [SerializeField] private List<Crocodile> zombieList = new List<Crocodile>();
     [SerializeField] private List<float> associatedX;
     [SerializeField] private int currentZombieID;
     private int layerCount = 1;
-    private Zombie firstZombie;
+    private Crocodile firstZombie;
 
     #region Properties
-    public Zombie FirstZombie => firstZombie;
+    public Crocodile FirstZombie => firstZombie;
 
     public int Count => zombieList.Count;
     public int CurrentFormID => currentZombieID;
@@ -47,7 +47,7 @@ public class ZombieManager : Manager
         if (zombieList.Count == 0) { firstZombie = null; return; }
         firstZombie = null;
         float maxX = -GameManager.ScreenWidth;
-        foreach (Zombie zombie in zombieList)
+        foreach (Crocodile zombie in zombieList)
             if (zombie.transform.position.x > maxX && !zombie.IsOutGround)
             { firstZombie = zombie; maxX = zombie.transform.position.x; }
     }
@@ -61,7 +61,7 @@ public class ZombieManager : Manager
 
     public void AddZombie(bool isEating = false)
     {
-        Zombie z = (Zombie)GetItem(currentZombieID);
+        Crocodile z = (Crocodile)GetItem(currentZombieID);
         z.SetLayer(layerCount);
 
         if (isEating && GameManager.Instance.Zombies.FirstZombie)
@@ -81,19 +81,19 @@ public class ZombieManager : Manager
 
     private bool AreAllOnGround()
     {
-        foreach (Zombie zombie in zombieList)
+        foreach (Crocodile zombie in zombieList)
             if (zombie.JumpStatus != 0) return false;
         return true;
     }
 
     private bool AreAllNotTouchingAnythingOtherThanGround()
     {
-        foreach (Zombie zombie in zombieList)
+        foreach (Crocodile zombie in zombieList)
             if (zombie.CollisionNumber > 0) return false;
         return true;
     }
 
-    private float GetDelayedTime(Zombie zombie)
+    private float GetDelayedTime(Crocodile zombie)
     {
         float delayModifier = 0.8f;
         if (CurrentFormID == 1)
@@ -111,7 +111,7 @@ public class ZombieManager : Manager
             {
                 if (FirstZombie && FirstZombie.JumpStatus == 0)
                 {
-                    foreach (Zombie zombie in zombieList)
+                    foreach (Crocodile zombie in zombieList)
                         if (!zombie.IsOutGround)
                             zombie.CallTriggerJump(GetDelayedTime(zombie));
 
@@ -119,7 +119,7 @@ public class ZombieManager : Manager
                 }
             }
             if (touch.phase == TouchPhase.Ended && FirstZombie)
-                foreach (Zombie zombie in zombieList)
+                foreach (Crocodile zombie in zombieList)
                     zombie.CallTriggerFall(GetDelayedTime(zombie));
         }
     }
@@ -165,8 +165,8 @@ public class ZombieManager : Manager
     {
         for (int i = 0; i < Count; ++i)
         {
-            Zombie temp = zombieList[i];
-            zombieList[i] = (Zombie)GetItem(id);
+            Crocodile temp = zombieList[i];
+            zombieList[i] = (Crocodile)GetItem(id);
             zombieList[i].transform.position = temp.transform.position + Vector3.up * 0.1f;
             zombieList[i].SetLayer(temp.Layer);
             ReturnItem(temp);

@@ -92,9 +92,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public ZombieManager Zombies => (ZombieManager)managers[0];
-    public CoinManager Coins => (CoinManager)managers[4];
-    public HumanManager Humans => (HumanManager)managers[2];
+    public CrocodileManager Zombies => (CrocodileManager)managers[0];
+    public GemManager Coins => (GemManager)managers[4];
+    public ChickenManager Humans => (ChickenManager)managers[2];
     #endregion Properties
 
 

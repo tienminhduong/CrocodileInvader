@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinContainer : PoolableObject
+public class GemContainer : PoolableObject
 {
     [SerializeField] private BoxCollider2D boxCollider;
     private List<Vector3> coinPosition;

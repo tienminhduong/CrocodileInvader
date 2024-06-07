@@ -1061,7 +1061,7 @@ GameObject:
   - component: {fileID: 331957478}
   - component: {fileID: 331957479}
   m_Layer: 0
-  m_Name: HumanManager
+  m_Name: ChickenManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1091,7 +1091,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 331957477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48b99ec204a9e3a4fafc731f432629ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 499330ffb58a84d46a21e7b117446236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   numberRepool: 3
@@ -2004,7 +2004,7 @@ GameObject:
   - component: {fileID: 708275361}
   - component: {fileID: 708275360}
   m_Layer: 0
-  m_Name: CoinManager
+  m_Name: GemManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2019,7 +2019,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 708275359}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 449b5de6f74c7fa40b40ef111e8cef93, type: 3}
+  m_Script: {fileID: 11500000, guid: 158ece77c6068bc47b9d9b7ab4e2b23d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   numberRepool: 3
@@ -2057,7 +2057,7 @@ GameObject:
   - component: {fileID: 714839947}
   - component: {fileID: 714839948}
   m_Layer: 0
-  m_Name: VehicleManager
+  m_Name: BoxManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4136,7 +4136,7 @@ GameObject:
   - component: {fileID: 1774429094}
   - component: {fileID: 1774429093}
   m_Layer: 0
-  m_Name: ZombieManager
+  m_Name: CrocodileManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

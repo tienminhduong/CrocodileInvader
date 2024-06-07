@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Human : PoolableObject
+public class Chicken : PoolableObject
 {
     [SerializeField] private List<SpriteRenderer> renderers = new List<SpriteRenderer>();
     [SerializeField] private BoxCollider2D boxCollider;

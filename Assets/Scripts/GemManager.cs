@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinManager : Manager
+public class GemManager : Manager
 {
     // Start is called before the first frame update
     void Start()
@@ -26,7 +26,7 @@ public class CoinManager : Manager
         int ID = 3;
         if (!isBomb)
             ID += vehicleID + 1;
-        CoinContainer cc = (CoinContainer)GetItem(ID);
+        GemContainer cc = (GemContainer)GetItem(ID);
         cc.transform.position = item.transform.position;
     }
 }

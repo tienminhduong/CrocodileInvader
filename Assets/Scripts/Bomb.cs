@@ -25,7 +25,7 @@ public class Bomb : PoolableObject
         if (!turnedGold && GameManager.Instance.Zombies.FirstZombie &&
             (transform.position - GameManager.Instance.Zombies.FirstZombie.transform.position).magnitude
             <= GameManager.ScreenWidth * 0.2f &&
-            GameManager.Instance.Zombies.CurrentFormID == Zombie.SPELLCASTERID)
+            GameManager.Instance.Zombies.CurrentFormID == Crocodile.SPELLCASTERID)
             TurnIntoGold();
     }
 
@@ -53,7 +53,7 @@ public class Bomb : PoolableObject
         if (collision.gameObject.CompareTag("Zombie"))
         {
             collided = true;
-            if (GameManager.Instance.Zombies.CurrentFormID != Zombie.SPELLCASTERID)
+            if (GameManager.Instance.Zombies.CurrentFormID != Crocodile.SPELLCASTERID)
             {
                 boxCollider.isTrigger = true;
                 animator.SetTrigger("damage");

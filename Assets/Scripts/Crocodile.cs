@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.iOS;
 
-public class Zombie : PoolableObject
+public class Crocodile : PoolableObject
 {
     [Header("Zombie")]
     [SerializeField] private BoxCollider2D boxCollider;

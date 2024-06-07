@@ -68,11 +68,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 886560458283688325}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b5db96816bf9b949abefa38e6b53c06, type: 3}
+  m_Script: {fileID: 11500000, guid: 1dc6d6dff017b5c4180f0a7681b04ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   scrollbackModifier: 1
-  id: 0
+  id: 1
   renderers:
   - {fileID: 452495661719202251}
   - {fileID: 3762291206411283678}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Gem : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -26,7 +26,7 @@ public class Coin : MonoBehaviour
 
     private void MoveToZombie()
     {
-        Zombie target = GameManager.Instance.Zombies.FirstZombie;
+        Crocodile target = GameManager.Instance.Zombies.FirstZombie;
         if (!target)
             return;
         Vector3 d = transform.position - target.transform.position;

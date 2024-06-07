@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Vehicle : PoolableObject
+public class Box : PoolableObject
 {
     [SerializeField] private BoxCollider2D boxCollider2D;
     [SerializeField] private int numberHumansContains;
@@ -49,7 +49,7 @@ public class Vehicle : PoolableObject
         if (!turnedGold && GameManager.Instance.Zombies.FirstZombie &&
             (transform.position - GameManager.Instance.Zombies.FirstZombie.transform.position).magnitude
             <= GameManager.ScreenWidth * 0.2f &&
-            GameManager.Instance.Zombies.CurrentFormID == Zombie.SPELLCASTERID)
+            GameManager.Instance.Zombies.CurrentFormID == Crocodile.SPELLCASTERID)
             TurnIntoGold();
     }
 
@@ -67,7 +67,7 @@ public class Vehicle : PoolableObject
     {
         for (int i = 0; i < numberHumansContains; ++i)
         {
-            Human h = (Human)GameManager.Instance.Humans.GetItem(Random.Range(0,
+            Chicken h = (Chicken)GameManager.Instance.Humans.GetItem(Random.Range(0,
                 GameManager.Instance.Humans.PrefabsCount));
             h.transform.position = gameObject.transform.position + Vector3.right * Width;
             h.SetLayer(Random.Range(1, 4));
