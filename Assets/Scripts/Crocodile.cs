@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.iOS;
 
 public class Crocodile : PoolableObject
 {
@@ -141,8 +140,8 @@ public class Crocodile : PoolableObject
                 jumpAcceleration = maxJumpAcceleration;
 
                 dForward = GameManager.ScreenWidth / 20f;
-                if (Random.Range(0, 100) < 10 && GameManager.Instance.Zombies.FirstZombie)
-                    dForward += (GameManager.Instance.Zombies.FirstZombie.transform.position.x - transform.position.x) * 0.5f;
+                if (Random.Range(0, 100) < 10 && GameManager.Instance.Zombies.FirstCrocodile)
+                    dForward += (GameManager.Instance.Zombies.FirstCrocodile.transform.position.x - transform.position.x) * 0.5f;
                 if (Random.Range(0, 100) < 10 || transform.position.x + dForward >= -0.1f * GameManager.ScreenWidth)
                     dForward = 0f;
             }

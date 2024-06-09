@@ -56,7 +56,7 @@ public class Chicken : PoolableObject
         if (collision.gameObject.CompareTag("Zombie"))
         {
             collided = true;
-            GameManager.Instance.Zombies.FirstZombie.PlayAttackAnimation();
+            GameManager.Instance.Zombies.FirstCrocodile.PlayAttackAnimation();
             RemoveSelf();
             GameManager.Instance.GenerateZombies(1, true);
         }

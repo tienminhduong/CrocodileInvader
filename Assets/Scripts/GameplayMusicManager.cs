@@ -64,7 +64,7 @@ public class GameplayMusicManager : MonoBehaviour
         soundEffect.clip = boom;
         soundEffect.Play();
     }
-    public void PlayHumanIntoZombieSound()
+    public void PlayChickenIntoCrocodileSound()
     {
         soundEffect.clip = humanIntoZombie;
         soundEffect.Play();
@@ -87,6 +87,11 @@ public class GameplayMusicManager : MonoBehaviour
     public void PlayGoldenizeSound()
     {
         soundEffect.clip = goldenize;
+        soundEffect.Play();
+    }
+    public void PlayDeTransformSound()
+    {
+        soundEffect.clip = henshin;
         soundEffect.Play();
     }
 }

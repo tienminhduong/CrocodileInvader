@@ -32,11 +32,11 @@ public class BombManager : Manager
 
     private void SpawnMultipleBomb()
     {
-        if (!GameManager.Instance.Zombies.FirstZombie)
+        if (!GameManager.Instance.Zombies.FirstCrocodile)
             return;
         Vector3 position = GameManager.Instance.SpawnerPosition + Vector3.left * 10f;
         Bomb bomb = (Bomb)GetItem();
-        float width = bomb.Width + 1f, zombieWidth = GameManager.Instance.Zombies.FirstZombie.Width * 2.5f;
+        float width = bomb.Width + 1f, zombieWidth = GameManager.Instance.Zombies.FirstCrocodile.Width * 2.5f;
         position += Vector3.right * width;
         bomb.transform.position = position;
         position += Vector3.right * (width + zombieWidth);

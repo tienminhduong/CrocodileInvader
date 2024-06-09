@@ -8,23 +8,23 @@ public class CrocodileManager : Manager
 {
     public override PoolableObject GetItem(int id = 0)
     {
-        Crocodile z = (Crocodile)base.GetItem(id);
-        z.transform.position = transform.position;
+        Crocodile c = (Crocodile)base.GetItem(id);
+        c.transform.position = transform.position;
 
-        return z;
+        return c;
     }
 
-    [SerializeField] private List<Crocodile> zombieList = new List<Crocodile>();
+    [SerializeField] private List<Crocodile> crocodileList = new List<Crocodile>();
     [SerializeField] private List<float> associatedX;
-    [SerializeField] private int currentZombieID;
+    [SerializeField] private int currentCrocodileID;
     private int layerCount = 1;
-    private Crocodile firstZombie;
+    private Crocodile firstCrocodile;
 
     #region Properties
-    public Crocodile FirstZombie => firstZombie;
+    public Crocodile FirstCrocodile => firstCrocodile;
 
-    public int Count => zombieList.Count;
-    public int CurrentFormID => currentZombieID;
+    public int Count => crocodileList.Count;
+    public int CurrentFormID => currentCrocodileID;
     #endregion Properties
 
     // Start is called before the first frame update
@@ -36,36 +36,36 @@ public class CrocodileManager : Manager
     void Update()
     {
         CollectingNulls();
-        LoadFirstZombie();
-        ZombiesJumping();
+        LoadCrocodileZombie();
+        CrocodilesJumping();
         CalculatePosition();
-        RearrangeZombies();
+        RearrangeCrocodiles();
     }
 
-    private void LoadFirstZombie()
+    private void LoadCrocodileZombie()
     {
-        if (zombieList.Count == 0) { firstZombie = null; return; }
-        firstZombie = null;
+        if (crocodileList.Count == 0) { firstCrocodile = null; return; }
+        firstCrocodile = null;
         float maxX = -GameManager.ScreenWidth;
-        foreach (Crocodile zombie in zombieList)
+        foreach (Crocodile zombie in crocodileList)
             if (zombie.transform.position.x > maxX && !zombie.IsOutGround)
-            { firstZombie = zombie; maxX = zombie.transform.position.x; }
+            { firstCrocodile = zombie; maxX = zombie.transform.position.x; }
     }
 
     private void CollectingNulls()
     {
-        for (int i = 0; i < zombieList.Count; i++)
-            if (!zombieList[i].isActiveAndEnabled) { zombieList.RemoveAt(i); i--; }
+        for (int i = 0; i < crocodileList.Count; i++)
+            if (!crocodileList[i].isActiveAndEnabled) { crocodileList.RemoveAt(i); i--; }
 
     }
 
     public void AddZombie(bool isEating = false)
     {
-        Crocodile z = (Crocodile)GetItem(currentZombieID);
-        z.SetLayer(layerCount);
+        Crocodile c = (Crocodile)GetItem(currentCrocodileID);
+        c.SetLayer(layerCount);
 
-        if (isEating && GameManager.Instance.Zombies.FirstZombie)
-            z.transform.position = GameManager.Instance.Zombies.FirstZombie.transform.position
+        if (isEating && GameManager.Instance.Zombies.FirstCrocodile)
+            c.transform.position = GameManager.Instance.Zombies.FirstCrocodile.transform.position
                 + new Vector3(-1f, 1f, 0f);
 
         if (layerCount == 1)
@@ -75,58 +75,62 @@ public class CrocodileManager : Manager
         else
             layerCount = 1;
 
-        zombieList.Add(z);
-        GameplayMusicManager.Instance.PlayHumanIntoZombieSound();
+        crocodileList.Add(c);
+        GameplayMusicManager.Instance.PlayChickenIntoCrocodileSound();
     }
 
     private bool AreAllOnGround()
     {
-        foreach (Crocodile zombie in zombieList)
-            if (zombie.JumpStatus != 0) return false;
+        foreach (Crocodile crocodile in crocodileList)
+            if (crocodile.JumpStatus != 0) return false;
         return true;
     }
 
     private bool AreAllNotTouchingAnythingOtherThanGround()
     {
-        foreach (Crocodile zombie in zombieList)
-            if (zombie.CollisionNumber > 0) return false;
+        foreach (Crocodile crocodile in crocodileList)
+            if (crocodile.CollisionNumber > 0) return false;
         return true;
     }
 
-    private float GetDelayedTime(Crocodile zombie)
+    private float GetDelayedTime(Crocodile crocodile)
     {
         float delayModifier = 0.8f;
         if (CurrentFormID == 1)
             delayModifier = 0.5f;
-        float distance = Mathf.Max(FirstZombie.transform.position.x - zombie.transform.position.x, 0f);
+        float distance = Mathf.Max(FirstCrocodile.transform.position.x - crocodile.transform.position.x, 0f);
         return distance / GameManager.Instance.ScrollBackSpeed * delayModifier + 0.001f;
     }
 
-    private void ZombiesJumping()
+    private void CrocodilesJumping()
     {
         if (Input.touchCount > 0 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
         {
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
-                if (FirstZombie && FirstZombie.JumpStatus == 0)
+                if (FirstCrocodile && FirstCrocodile.JumpStatus == 0)
                 {
-                    foreach (Crocodile zombie in zombieList)
-                        if (!zombie.IsOutGround)
-                            zombie.CallTriggerJump(GetDelayedTime(zombie));
+                    foreach (Crocodile crocodile in crocodileList)
+                        if (!crocodile.IsOutGround)
+                            crocodile.CallTriggerJump(GetDelayedTime(crocodile));
 
                     GameplayMusicManager.Instance.PlayJumpSound();
                 }
             }
-            if (touch.phase == TouchPhase.Ended && FirstZombie)
-                foreach (Crocodile zombie in zombieList)
-                    zombie.CallTriggerFall(GetDelayedTime(zombie));
+            if (touch.phase == TouchPhase.Ended && FirstCrocodile)
+                foreach (Crocodile crocodile in crocodileList)
+                    crocodile.CallTriggerFall(GetDelayedTime(crocodile));
         }
+        if (Input.touchCount == 0 && FirstCrocodile)
+            foreach (Crocodile crocodile in crocodileList)
+                if (crocodile.IsTouchingScreen)
+                    crocodile.CallTriggerFall(GetDelayedTime(crocodile));
     }
 
     private void CalculatePosition()
     {
-        if (!FirstZombie || !AreAllOnGround()
+        if (!FirstCrocodile || !AreAllOnGround()
             || !AreAllNotTouchingAnythingOtherThanGround()) return;
         associatedX = new List<float>();
 
@@ -135,42 +139,44 @@ public class CrocodileManager : Manager
             availableWidth = 0.4f * GameManager.ScreenWidth;
         float lastPossibleXPosition = -0.4f * GameManager.ScreenWidth;
 
-        float d = availableWidth / zombieList.Count;
-        float maxD = 0.75f * FirstZombie.Width;
+        float d = availableWidth / crocodileList.Count;
+        float maxD = 0.75f * FirstCrocodile.Width;
         if (maxD < d) d = maxD;
 
-        for (int i = 0; i < zombieList.Count; i++)
+        for (int i = 0; i < crocodileList.Count; i++)
         {
-            float distance = (zombieList.Count - 1 - i) * d;
+            float distance = (crocodileList.Count - 1 - i) * d;
             associatedX.Add(lastPossibleXPosition + distance);
         }
     }
 
-    private void RearrangeZombies()
+    private void RearrangeCrocodiles()
     {
-        if (associatedX == null || associatedX.Count < zombieList.Count) return;
+        if (associatedX == null || associatedX.Count < crocodileList.Count) return;
         if (AreAllOnGround() && AreAllNotTouchingAnythingOtherThanGround())
         {
-            for (int i = 0; i < zombieList.Count; ++i)
+            for (int i = 0; i < crocodileList.Count; ++i)
             {
-                if (zombieList[i].transform.position.x == associatedX[i])
+                if (crocodileList[i].transform.position.x == associatedX[i])
                     continue;
-                float d = zombieList[i].transform.position.x - associatedX[i];
-                zombieList[i].transform.position += 2 * d * Time.deltaTime * Vector3.left;
+                float d = crocodileList[i].transform.position.x - associatedX[i];
+                crocodileList[i].transform.position += 2 * d * Time.deltaTime * Vector3.left;
             }
         }
     }
 
     public void ChangeForm(int id)
     {
+        if (id != 0)
+            GameplayMusicManager.Instance.PlayGoldenizeSound();
         for (int i = 0; i < Count; ++i)
         {
-            Crocodile temp = zombieList[i];
-            zombieList[i] = (Crocodile)GetItem(id);
-            zombieList[i].transform.position = temp.transform.position + Vector3.up * 0.1f;
-            zombieList[i].SetLayer(temp.Layer);
+            Crocodile temp = crocodileList[i];
+            crocodileList[i] = (Crocodile)GetItem(id);
+            crocodileList[i].transform.position = temp.transform.position + Vector3.up * 0.1f;
+            crocodileList[i].SetLayer(temp.Layer);
             ReturnItem(temp);
         }
-        currentZombieID = id;
+        currentCrocodileID = id;
     }
 }

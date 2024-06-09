@@ -46,8 +46,8 @@ public class RoadManager : Manager
     // Update is called once per frame
     void Update()
     {
-        standardDistance = GameManager.Instance.Zombies.FirstZombie ?
-            GameManager.Instance.Zombies.FirstZombie.Width * 2f : 0;
+        standardDistance = GameManager.Instance.Zombies.FirstCrocodile ?
+            GameManager.Instance.Zombies.FirstCrocodile.Width * 2f : 0;
 
         countDistance -= GameManager.Instance.ScrollBackSpeed * Time.deltaTime;
         if (countDistance <= 0)

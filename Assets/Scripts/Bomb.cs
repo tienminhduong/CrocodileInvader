@@ -22,8 +22,8 @@ public class Bomb : PoolableObject
     protected override void Update()
     {
         base.Update();
-        if (!turnedGold && GameManager.Instance.Zombies.FirstZombie &&
-            (transform.position - GameManager.Instance.Zombies.FirstZombie.transform.position).magnitude
+        if (!turnedGold && GameManager.Instance.Zombies.FirstCrocodile &&
+            (transform.position - GameManager.Instance.Zombies.FirstCrocodile.transform.position).magnitude
             <= GameManager.ScreenWidth * 0.2f &&
             GameManager.Instance.Zombies.CurrentFormID == Crocodile.SPELLCASTERID)
             TurnIntoGold();
@@ -40,7 +40,7 @@ public class Bomb : PoolableObject
     private void TurnIntoGold()
     {
         GameManager.Instance.Coins.TranformIntoCoin(this, true, 0);
-        GameManager.Instance.Zombies.FirstZombie.PlayAttackAnimation();
+        GameManager.Instance.Zombies.FirstCrocodile.PlayAttackAnimation();
         GameplayMusicManager.Instance.PlayGoldenizeSound();
         RemoveSelf();
         turnedGold = true;

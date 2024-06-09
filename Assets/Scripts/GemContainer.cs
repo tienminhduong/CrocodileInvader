@@ -36,5 +36,7 @@ public class GemContainer : PoolableObject
         base.Update();
         if (ID == 2 && transform.position.x < -GameManager.ScreenWidth / 2f)
             GameManager.Instance.DeactivateTranform();
+        if (ID == 2 && transform.position.x <= 0)
+            GameplayMusicManager.Instance.PlayDeTransformSound();
     }
 }

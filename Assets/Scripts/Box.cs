@@ -46,8 +46,8 @@ public class Box : PoolableObject
         text.text = CollisionCount.ToString() + "/" + numberCrocodileNeeded.ToString();
         slider.value = (float)CollisionCount / numberCrocodileNeeded;
 
-        if (!turnedGold && GameManager.Instance.Zombies.FirstZombie &&
-            (transform.position - GameManager.Instance.Zombies.FirstZombie.transform.position).magnitude
+        if (!turnedGold && GameManager.Instance.Zombies.FirstCrocodile &&
+            (transform.position - GameManager.Instance.Zombies.FirstCrocodile.transform.position).magnitude
             <= GameManager.ScreenWidth * 0.2f &&
             GameManager.Instance.Zombies.CurrentFormID == Crocodile.SPELLCASTERID)
             TurnIntoGold();
@@ -56,7 +56,7 @@ public class Box : PoolableObject
     private void TurnIntoGold()
     {
         GameManager.Instance.Coins.TranformIntoCoin(this, false, ID);
-        GameManager.Instance.Zombies.FirstZombie.PlayAttackAnimation();
+        GameManager.Instance.Zombies.FirstCrocodile.PlayAttackAnimation();
         GameplayMusicManager.Instance.PlayGoldenizeSound();
         GeneratePreys();
         RemoveSelf();

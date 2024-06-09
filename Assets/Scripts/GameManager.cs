@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverScore;
 
     #region Properties
-    public float ScrollBackSpeed => scrollBackSpeed + Mathf.Min((brainNumber - initialZombieNumber) / 2.5f, 15);
+    public float ScrollBackSpeed => scrollBackSpeed + Mathf.Min((brainNumber - initialZombieNumber) / 2.5f, 23);
     public int CoinNumber => coinNumber;
     public int BrainNumber => brainNumber;
     public Vector3 SpawnerPosition => spawnerPosition.position;
@@ -249,8 +249,8 @@ public class GameManager : MonoBehaviour
         if (isBomb)
             explosion.transform.position = new Vector3(position.x, position.y + 1f, explosion.transform.position.z);
         else
-            explosion.transform.position = new Vector3(Zombies.FirstZombie.transform.position.x + 3f,
-                Zombies.FirstZombie.transform.position.y, explosion.transform.position.z);
+            explosion.transform.position = new Vector3(Zombies.FirstCrocodile.transform.position.x + 3f,
+                Zombies.FirstCrocodile.transform.position.y, explosion.transform.position.z);
         explosion.gameObject.SetActive(true);
     }
 }
